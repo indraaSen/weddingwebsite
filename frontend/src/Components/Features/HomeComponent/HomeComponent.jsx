@@ -1,0 +1,451 @@
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { appId, retriveUser } from "../../APIs/API";
+import HeaderComponent from "../HeaderComponent/HeaderComponent";
+import { setOpenLogout } from "../../MainStore/Slice/LoginReducer/LoginReducer";
+import LogoutComponent from "../LogoutComponent/LogoutComponent";
+import SidebarComponent from "../SidebarComponent/SidebarComponent";
+import bodyBg from "../../Images/bodyBg.jpg";
+import weddingPhoto1 from "../../Images/weddingPhoto1.jpg";
+import weddingPhoto2 from "../../Images/weddingPhoto2.jpg";
+import weddingPhoto3 from "../../Images/weddingPhoto3.jpg";
+import logo from "../../Images/logo.jpg";
+import PopupComponent from "../../Module/PopupComponent/PopupComponent";
+import useRazorpay from "react-razorpay";
+
+const HomeComponent = () => {
+  const openLogoutBtn = useSelector((state) => state.login.openLogout);
+  const openSidebarBtn = useSelector((state) => state.login.openSidebar);
+  const userData = useSelector((state) => state.login.userdata);
+  const dispatch = useDispatch();
+  const [open, setOpen] = useState(false);
+  const [message, setMessage] = useState("");
+  const [isLoading1, setIsLoading1] = useState(false);
+  const [isLoading2, setIsLoading2] = useState(false);
+  const [isLoading3, setIsLoading3] = useState(false);
+  const [isLoading4, setIsLoading4] = useState(false);
+
+  useEffect(() => {
+    retriveUser(dispatch);
+  }, [dispatch]);
+
+  const [Razorpay] = useRazorpay();
+
+  const handlePayment = (data) => {
+    if (data.amount === "500") {
+      setIsLoading1(true);
+    } else if (data.amount === "700") {
+      setIsLoading2(true);
+    } else if (data.amount === "1000") {
+      setIsLoading3(true);
+    } else {
+      setIsLoading4(true);
+    }
+    makePayment(data);
+  };
+
+  const makePayment = async (data) => {
+    try {
+      if (!userData) {
+        setMessage("Login in to buy this package!");
+        setOpen(true);
+      } else {
+        const response = await fetch("http://localhost:8000/order/create", {
+          method: "POST",
+          body: JSON.stringify({
+            amount: data?.amount,
+            currency: data?.currency,
+            receipt: data?.receipt,
+            customer: {
+              name: userData?.name,
+              email: userData?.email,
+              contact: userData?.contact,
+            },
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        const order = await response.json();
+        setIsLoading1(false);
+        setIsLoading2(false);
+        setIsLoading3(false);
+        setIsLoading4(false);
+        if (order.status === 500) {
+          alert(order.msg);
+        } else {
+          const options = {
+            key: appId,
+            amount: order?.order.amount,
+            currency: "INR",
+            name: "Wedding wale",
+            description: "Hum shadi karate hai.",
+            image: { logo },
+            order_id: order.order.id,
+            callback_url: "http://localhost:8000/order/validate",
+            prefill: {
+              name: userData?.name,
+              email: userData?.email,
+              contact: userData?.contact,
+            },
+            notes: {
+              address: "Razorpay Corporate Office",
+            },
+            userName: order.order.notes.userName,
+            email: order.order.notes.userEmail,
+            contact: order.order.notes.userContact,
+            theme: {
+              color: "#3399cc",
+            },
+          };
+          const razor = new Razorpay(options);
+          razor.open();
+        }
+      }
+    } catch (error) {
+      alert("Something went wrong!");
+    }
+  };
+
+  const handleLogoutClick = () => {
+    dispatch(setOpenLogout({ openLogout: false }));
+  };
+  return (
+    <>
+      <HeaderComponent />
+      <div
+        onClick={() => handleLogoutClick()}
+        className={`absolute z-20 h-screen w-full ${
+          openLogoutBtn ? "block" : "hidden"
+        }`}
+      >
+        {openLogoutBtn && <LogoutComponent />}
+      </div>
+      {/* main body starts here */}
+      <main className="w-full h-auto">
+        <div className=" w-full h-96 relative bg-gray-500 ">
+          {openSidebarBtn && <SidebarComponent position="fixed z-20" />}
+
+          <img
+            className="hidden md:block w-full h-full object-cover"
+            src={bodyBg}
+            alt="background img"
+          />
+          <div className="hidden md:block absolute inset-0 bg-gradient-to-t from-transparent to-white opacity-40"></div>
+          <div className="absolute top-20 left-[30%] md:top-[12%] md:left-[74%] md:right-0 md:bottom-[70%] flex items-center justify-center z-10">
+            <p className=" text-4xl font-semibold italic text-white">
+              Who are we?
+            </p>
+          </div>
+          <div className=" absolute w-auto top-36  md:top-40 md:left-[74%] md:right-0 md:bottom-0 flex items-center justify-center z-10">
+            <span className=" text-2xl font-semibold italic text-center">
+              <span>We are party planners!</span> <br />
+              <p className="text-xs text-center mt-4 p-2 md:w-96">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum
+                deserunt sapiente repudiandae possimus ad, est natus corporis
+                hic assumenda totam, nostrum porro dolore, aspernatur adipisci
+                iure quaerat vitae voluptate. Nesciunt labore esse eligendi
+                molestias repellat quisquam vero facilis. Nam expedita,
+                cupiditate quas deserunt sapiente, suscipit neque necessitatibus
+                reiciendis quasi, eaque deleniti inventore esse dolorum atque
+                officiis laudantium. Delectus, quos id totam pariatur
+                consectetur consequatur sint ex quod magni libero nostrum quia
+                suscipit fugiat, assumenda corporis debitis unde rem possimus
+                molestias?
+              </p>
+            </span>
+          </div>
+        </div>
+        {/* offer section starts here */}
+        <div className=" h-auto w-full border-r-4 border-b-4 border-t-0 border-l-0 rounded-r-2xl border-yellow-300 grid justify-center items-center md:flex md:place-content-between md:p-5">
+          <div className="h-96 w-64 grid items-center justify-center p-5">
+            <div
+              className={`h-16 w-16 border-4 border-yellow-900 flex items-center justify-center rounded-full`}
+            >
+              <h1 className={`text-2xl font-bold text-yellow-900`}>B</h1>
+            </div>
+            <div
+              className={`h-72 w-56 border-8 rounded-2xl border-r-yellow-800 border-b-yellow-800 border-l-0 border-t-0`}
+            >
+              <div className="h-full w-full border-l-4 rounded-xl ">
+                <h1
+                  className={`w-full h-[75px] flex justify-center items-center text-xl font-semibold text-yellow-800`}
+                >
+                  Bronze Plan
+                </h1>
+                <p className="w-full h-16 font-medium flex items-center justify-center ">
+                  Help in Haldi, Shadi.
+                </p>
+                <p className="w-full h-12 flex items-center justify-center font-semibold">
+                  ₹ 500/-
+                </p>
+
+                <div className="flex items-center justify-center ">
+                  <button
+                    onClick={() =>
+                      handlePayment({
+                        amount: "500",
+                        currency: "INR",
+                        receipt: `bronze plan ${Math.random()}`,
+                        userdata: userData,
+                      })
+                    }
+                    className={`h-10 w-24 border-2 bg-yellow-900 rounded-md text-white hover:bg-yellow-700 hover:text-black font-medium`}
+                  >
+                    {isLoading1 ? (
+                      <i class="fa fa-spinner fa-spin"></i>
+                    ) : (
+                      "Buy Now"
+                    )}
+                  </button>
+                </div>
+                <div className=" pl-5 h-14 flex items-center">
+                  <p className="text-xs text-blue-600">T&C Apply!</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="h-96 w-64  grid items-center justify-center p-5">
+            <div className="  h-16 w-16 border-4 border-slate-500 flex items-center justify-center rounded-full">
+              <h1 className="text-2xl font-bold text-slate-500">S</h1>
+            </div>
+            <div className="h-72 w-56 border-8 rounded-2xl border-r-slate-500 border-b-slate-500 border-l-0 border-t-0">
+              <div className="h-full w-full border-l-4 rounded-xl ">
+                <h1 className="  w-full h-[75px] flex justify-center items-center text-xl font-semibold text-slate-500">
+                  Silver Plan
+                </h1>
+                <p className="w-full h-16 font-medium text-center flex items-center justify-center ">
+                  Help in Sangeet, Haldi, Shadi.
+                </p>
+                <p className="w-full h-12 flex items-center justify-center font-semibold">
+                  ₹ 700/-
+                </p>
+
+                <div className="flex items-center justify-center ">
+                  <button
+                    onClick={() =>
+                      handlePayment({
+                        amount: "700",
+                        currency: "INR",
+                        receipt: `silver plan ${Math.random()}`,
+                        userdata: userData,
+                      })
+                    }
+                    className="h-10 w-24 border-2 bg-slate-500 rounded-md text-white hover:bg-slate-300 hover:text-black font-medium"
+                  >
+                    {isLoading2 ? (
+                      <i class="fa fa-spinner fa-spin"></i>
+                    ) : (
+                      "Buy Now"
+                    )}
+                  </button>
+                </div>
+                <div className=" pl-5 h-14 flex items-center">
+                  <p className="text-xs text-blue-600">T&C Apply!</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="h-96 w-64  grid items-center justify-center p-5">
+            <div className="  h-16 w-16 border-4 border-yellow-500 flex items-center justify-center rounded-full">
+              <h1 className="text-2xl font-bold text-yellow-500">G</h1>
+            </div>
+            <div className="h-72 w-56 border-8 rounded-2xl border-r-yellow-500 border-b-yellow-500 border-l-0 border-t-0">
+              <div className="h-full w-full border-l-4 rounded-xl ">
+                <h1 className="  w-full h-[75px] flex justify-center items-center text-xl font-semibold text-yellow-500">
+                  Gold Plan
+                </h1>
+                <p className="w-full h-16 font-medium flex items-center justify-center text-center">
+                  Help in Mehndi, Sangeet, Haldi, Shadi.
+                </p>
+                <p className="w-full h-12 flex items-center justify-center font-semibold">
+                  ₹ 1000/-
+                </p>
+
+                <div className="flex items-center justify-center ">
+                  <button
+                    onClick={() =>
+                      handlePayment({
+                        amount: "1000",
+                        currency: "INR",
+                        receipt: `Gold plan ${Math.random()}`,
+                        userdata: userData,
+                      })
+                    }
+                    className="h-10 w-24 border-2 bg-yellow-500 rounded-md text-white hover:bg-yellow-300 hover:text-black font-medium "
+                  >
+                    {isLoading3 ? (
+                      <i class="fa fa-spinner fa-spin"></i>
+                    ) : (
+                      "Buy Now"
+                    )}
+                  </button>
+                </div>
+                <div className="pt-5 pl-5">
+                  <p className="text-xs text-blue-600">T&C Apply!</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="h-96 w-64  grid items-center justify-center p-5">
+            <div className="  h-16 w-16 border-4 border-gray-400 flex items-center justify-center rounded-full">
+              <h1 className="text-2xl font-bold text-gray-400">P</h1>
+            </div>
+            <div className="h-72 w-56 border-8 rounded-2xl border-r-gray-400 border-b-gray-400 border-l-0 border-t-0">
+              <div className="h-full w-full border-l-4 rounded-xl ">
+                <h1 className=" w-full h-[75px] flex justify-center items-center text-xl font-semibold text-gray-400">
+                  Platinum Plan
+                </h1>
+                <p className="w-full h-16 font-medium flex items-center justify-center text-center ">
+                  Help in Mehndi, Sangeet, Haldi, Shadi, Rasoyi.
+                </p>
+                <p className="w-full h-12 flex items-center justify-center font-semibold">
+                  ₹ 1500/-
+                </p>
+
+                <div className=" flex items-center justify-center ">
+                  <button
+                    onClick={() =>
+                      handlePayment({
+                        amount: "1500",
+                        currency: "INR",
+                        receipt: `Platinum plan ${Math.random()}`,
+                        userdata: userData,
+                      })
+                    }
+                    className="h-10 w-24 border-2 bg-gray-400 rounded-md text-white hover:bg-gray-200 hover:text-black font-medium"
+                  >
+                    {isLoading4 ? (
+                      <i class="fa fa-spinner fa-spin"></i>
+                    ) : (
+                      "Buy Now"
+                    )}
+                  </button>
+                </div>
+                <div className=" pl-5 h-14 flex items-center">
+                  <p className="text-xs text-blue-600">T&C Apply!</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* offer section ends here */}
+        {/* user comment section */}
+        <div className="h-auto w-full mt-5">
+          <div className="relative h-[450px] w-full border-4 border-gray-300 rounded-md mb-5 md:flex md:h-96">
+            <div className="md:w-[50%] md:h-full md:flex md:flex-col md:items-center md:justify-center">
+              <h1 className="text-xl font-semibold flex items-center justify-center text-center pt-2">
+                What Neha and Ishan is saying about bada event wala!
+              </h1>
+              <p className="text-[12px] flex items-center justify-center text-center pt-3 pl-7 pr-7">
+                Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                Ratione quibusdam, blanditiis rem sequi omnis in vitae voluptate
+                officia, nesciunt eveniet adipisci illum ipsam. Odit labore
+                beatae aliquid accusantium, eos cum numquam aperiam voluptates
+                culpa commodi reiciendis. Neque perferendis autem quis id odio
+                delectus nesciunt laboriosam nulla modi recusandae. Vero,
+                consequatur.
+              </p>
+            </div>
+            <div className="absolute bottom-0 h-60 w-full md:w-[50%] md:h-full md:right-0">
+              <img
+                className="rounded-lg p-1 h-full w-full object-cover "
+                src={weddingPhoto1}
+                alt="weddingPhoto1"
+              />
+            </div>
+          </div>
+          <div className="relative h-[450px] w-full border-4 border-gray-300 rounded-md mb-5">
+            <div className="md:w-[50%] md:h-full md:flex md:flex-col md:items-center md:justify-center">
+              <h1 className="text-xl font-semibold flex items-center justify-center text-center pt-2">
+                What Suraj and taniya is saying about bada event wala!
+              </h1>
+              <p className="text-[12px] flex items-center justify-center text-center pt-3 pl-7 pr-7">
+                Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                Ratione quibusdam, blanditiis rem sequi omnis in vitae voluptate
+                officia, nesciunt eveniet adipisci illum ipsam. Odit labore
+                beatae aliquid accusantium, eos cum numquam aperiam voluptates
+                culpa commodi reiciendis. Neque perferendis autem quis id odio
+                delectus nesciunt laboriosam nulla modi recusandae. Vero,
+                consequatur.
+              </p>
+            </div>
+            <div className="absolute bottom-0 h-60 w-full md:w-[50%] md:h-full md:right-0">
+              <img
+                className="rounded-lg p-1 h-full w-full object-cover"
+                src={weddingPhoto2}
+                alt="weddingPhoto2"
+              />
+            </div>
+          </div>
+          <div className="relative h-[450px] w-full border-4 border-gray-300 rounded-md">
+            <div className="md:w-[50%] md:h-full md:flex md:flex-col md:items-center md:justify-center">
+              <h1 className="text-xl font-semibold flex items-center justify-center text-center pt-2">
+                What Naruto and Hinata is saying about bada event wala!
+              </h1>
+              <p className="text-[12px] flex items-center justify-center text-center pt-3 pl-7 pr-7">
+                Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                Ratione quibusdam, blanditiis rem sequi omnis in vitae voluptate
+                officia, nesciunt eveniet adipisci illum ipsam. Odit labore
+                beatae aliquid accusantium, eos cum numquam aperiam voluptates
+                culpa commodi reiciendis. Neque perferendis autem quis id odio
+                delectus nesciunt laboriosam nulla modi recusandae. Vero,
+                consequatur.
+              </p>
+            </div>
+            <div className="absolute bottom-0 h-60 w-full md:w-[50%] md:h-full md:right-0">
+              <img
+                className="rounded-lg p-1 h-full w-full object-cover"
+                src={weddingPhoto3}
+                alt="weddingPhoto3"
+              />
+            </div>
+          </div>
+        </div>
+        {/* user comment section ends here  */}
+        <div className="border-2 border-gray-600 rounded-md bg-gray-50 mt-5 h-auto w-full flex justify-center items-center text-center flex-col ">
+          <h1 className="font-semibold text-xl p-3">
+            Make your wedding memorable with us!
+          </h1>
+          <p className="pl-5 pr-5 pb-3 italic">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus,
+            excepturi? Odio voluptates nemo quasi ab possimus alias, autem
+            molestias sit, ratione nisi consequatur corporis aut illo. Illum sit
+            ratione officiis?
+          </p>
+        </div>
+      </main>
+      {/* main body ends here  */}
+      {/* footer starts here  */}
+      <footer className=" w-full h-auto bg-gray-300 md:h-48 rounded-md mt-5 md:place-content-stretch ">
+        <div className=" w-full h-72 mt-2 md:h-40">
+          <h3 className="text-xl font-semibold flex justify-center pt-2 underline">
+            Contact Us:
+          </h3>
+          <div className=" w-full h-64 md:flex p-5 md:h-36">
+            <div className=" w-full h-20 pl-3 pt-3">
+              <h5 className="font-semibold">Address:</h5>
+              <p className="font-medium text-sm">
+                Plot.No 12, Shaitan gali, Khatra mahal, kabristan ke piche,
+                <br />
+                Nagpur - 440008, Maharashtra
+              </p>
+            </div>
+            <div className=" w-full h-20 pl-3 pt-3">
+              <h5 className="font-semibold">Contact Number:</h5>
+              <p className="font-medium text-sm">1234567890</p>
+            </div>
+            <div className=" w-full h-16 pl-3 ">
+              <h5 className="font-semibold">Email Address:</h5>
+              <p className="font-medium text-sm">Sample@gmail.com</p>
+            </div>
+          </div>
+        </div>
+      </footer>
+      <PopupComponent open={open} setOpen={setOpen} message={message} />;
+    </>
+  );
+};
+
+export default HomeComponent;
