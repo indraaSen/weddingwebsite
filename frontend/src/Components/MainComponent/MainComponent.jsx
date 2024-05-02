@@ -21,6 +21,9 @@ const SuccessComponent = lazy(() =>
 const CancelComponent = lazy(() =>
   import("../Payment/CancelComponent/CancelComponent")
 );
+const PaymentHistoryComponent = lazy(() =>
+  import("../Features/PaymentHistoryComponent/PaymentHistoryComponent")
+);
 const ErrorPage = lazy(() => import("../Features/ErrorPage/ErrorPage"));
 
 const MainComponent = () => {
@@ -34,6 +37,7 @@ const MainComponent = () => {
           <Route path="/signup" element={<SignUpComponent />} />
           <Route path="/event" element={<EventComponent />} />
           <Route path="/contactus" element={<ContactComponent />} />
+          <Route path="/paymenthistory" element={<PaymentHistoryComponent />} />
           <Route path="/success" element={<SuccessComponent />} />
           <Route path="/cancel" element={<CancelComponent />} />
           <Route path="/*" element={<ErrorPage />} />

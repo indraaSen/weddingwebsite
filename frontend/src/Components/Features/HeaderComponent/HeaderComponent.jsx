@@ -13,12 +13,28 @@ const tabs = [
   { name: "Event", path: "/event" },
   { name: "Contact Us", path: "/contactus" },
 ];
+const tabs2 = [
+  { name: "Home", path: "/home" },
+  { name: "Event", path: "/event" },
+  { name: "Contact Us", path: "/contactus" },
+  { name: "Payment History", path: "/paymenthistory" },
+];
 
 const HeaderComponent = () => {
   const userdata = useSelector((state) => state.login.userdata);
   const openLogoutBtn = useSelector((state) => state.login.openLogout);
   const openSidebarBtn = useSelector((state) => state.login.openSidebar);
   const dispatch = useDispatch();
+
+  const [headerValues, setHeaderValues] = React.useState(tabs);
+
+  React.useEffect(() => {
+    if (userdata?.user) {
+      setHeaderValues(tabs2);
+    } else {
+      setHeaderValues(tabs);
+    }
+  }, [userdata]);
 
   const handleLogoutClick = () => {
     dispatch(setOpenLogout({ openLogout: !openLogoutBtn }));
@@ -52,7 +68,7 @@ const HeaderComponent = () => {
         <div className=" h-full hidden  md:w-[800px] pl-2 pr-2 md:flex md:justify-center md:items-center">
           <div className="w-[500px]">
             <div className="flex md:place-content-between">
-              {tabs.map((tab) => (
+              {headerValues.map((tab) => (
                 <NavLink
                   to={tab.path}
                   key={tab.name}

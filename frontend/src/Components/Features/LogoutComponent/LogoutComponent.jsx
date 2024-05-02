@@ -1,13 +1,16 @@
 import { useDispatch, useSelector } from "react-redux";
 import { setUserData } from "../../MainStore/Slice/LoginReducer/LoginReducer";
+import { useNavigate } from "react-router-dom";
 
 const LogoutComponent = () => {
   const userVal = useSelector((state) => state.login.userdata);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     localStorage.removeItem("token");
     dispatch(setUserData({ userdata: null }));
+    navigate("/home");
   };
 
   return (
