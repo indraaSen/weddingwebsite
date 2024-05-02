@@ -37,7 +37,7 @@ name VARCHAR(200) NOT NULL,
 email VARCHAR(100) NOT NULL,
 contact VARCHAR(50) NOT NULL,
 orderid VARCHAR(100) NOT NULL UNIQUE,
-paymentid  VARCHAR(100) NOT NULL UNIQUE
+paymentid  VARCHAR(100) UNIQUE
 )
 `;
 pool
@@ -153,7 +153,7 @@ app.get("/protected", authenticateToken, (req, res) => {
 //create order api
 app.post("/order/create", async (req, res) => {
   try {
-    const { amount, currency, receipt } = req.body;
+    const { amount, currency, receipt, customer } = req.body;
     var options = {
       amount: amount * 100,
       currency: currency,
@@ -161,6 +161,17 @@ app.post("/order/create", async (req, res) => {
     };
 
     const order = await razorpay.orders.create(options);
+
+    const query =
+      "INSERT INTO paymenthistory (name, email, contact, orderid, paymentid) VALUES ($1, $2, $3, $4, $5)";
+    const values = [
+      customer.name,
+      customer.email,
+      customer.contact,
+      order.id,
+      null,
+    ];
+    await pool.query(query, values);
 
     if (!order) {
       return res.status(500).send("Error creating order");
@@ -174,41 +185,49 @@ app.post("/order/create", async (req, res) => {
 
 //validate order api
 app.post("/order/validate", async (req, res) => {
-  const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
-    req.body;
+  try {
+    const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
+      req.body;
 
-  if (!razorpay_signature || !razorpay_order_id) {
-    return res.status(500).json({ msg: "Server Error!" });
-  }
+    if (!razorpay_signature || !razorpay_order_id) {
+      return res.status(500).json({ msg: "Server Error!" });
+    }
 
-  const isAuthenticate = crypto.createHmac(
-    "sha256",
-    process.env.RAZORPAY_SECRET_KEY
-  );
-  isAuthenticate.update(`${razorpay_order_id}|${razorpay_payment_id}`);
-  const newSignature = isAuthenticate.digest("hex");
+    const isAuthenticate = crypto.createHmac(
+      "sha256",
+      process.env.RAZORPAY_SECRET_KEY
+    );
+    isAuthenticate.update(`${razorpay_order_id}|${razorpay_payment_id}`);
+    const newSignature = isAuthenticate.digest("hex");
 
-  if (newSignature !== razorpay_signature) {
-    return res.status(400).json({ msg: "Transaction is not legit!" });
-  } else {
-    saveOrderDetails(razorpay_order_id, razorpay_payment_id);
-    res.redirect("http://localhost:3000/success");
+    if (newSignature !== razorpay_signature) {
+      return res.status(400).json({ msg: "Transaction is not legit!" });
+    } else {
+      const query = "UPDATE paymenthistory SET paymentid=$1 WHERE orderid = $2";
+      const values = [razorpay_payment_id, razorpay_order_id];
+      await pool.query(query, values);
+      res.redirect("http://localhost:3000/success");
+
+      const newQuery = "DELETE FROM paymenthistory WHERE paymentid ISNULL";
+      await pool.query(newQuery);
+    }
+  } catch (error) {
+    res.redirect("http://localhost:3000/cancel");
   }
 });
 
-//save order (working on)
-const saveOrderDetails = async (razorpay_order_id, razorpay_payment_id) => {
-  const query =
-    "INSERT INTO paymenthistory (name, email, contact, orderid, paymentid) VALUES ($1, $2, $3, $4, $5)";
-  const values = [
-    "naam",
-    "naam@gmail.com",
-    "0000000000",
-    razorpay_order_id,
-    razorpay_payment_id,
-  ];
-  await pool.query(query, values);
-};
+app.post("/find/paymenthistory", async (req, res) => {
+  const { email } = req.body;
+  try {
+    const newQuery = "DELETE FROM paymenthistory WHERE paymentid ISNULL";
+    await pool.query(newQuery);
+
+    const query = "SELECT * FROM paymenthistory WHERE email = $1";
+    const value = [email];
+    const data = await pool.query(query, value);
+    res.send({ status: 200, data: data.rows });
+  } catch (error) {}
+});
 
 app.listen(8000, () => {
   console.log("Server is running on the port 8000");
