@@ -1,7 +1,7 @@
 import { setUserData } from "../MainStore/Slice/LoginReducer/LoginReducer";
 
-export const appId = "Your_razorpay_key";
-export const secret = "Your_Secret_key";
+export const appId = "YOUR_RAZORPAY_KEY_ID";
+export const secret = "YOUR_RAZORPAY_SECRET_KEY";
 
 //to add new users
 export const signupUser = async (

@@ -57,12 +57,14 @@ const PaymentHistoryComponent = () => {
           ) : (
             <table className="border-2 border-black h-auto md:w-[100%] ">
               <tr>
-                <th className="border-2 border-black">id</th>
+                <th className="border-2 border-black">Id</th>
                 <th className="border-2 border-black">Name</th>
                 <th className="border-2 border-black">Email</th>
                 <th className="border-2 border-black">Contact</th>
                 <th className="border-2 border-black">Order Id</th>
                 <th className="border-2 border-black">Payment Id</th>
+                <th className="border-2 border-black">Amount</th>
+                <th className="border-2 border-black">Date</th>
               </tr>
               {paymentData.map((data, index) => (
                 <tr>
@@ -81,6 +83,12 @@ const PaymentHistoryComponent = () => {
                   </td>
                   <td className="border-2 border-black text-center">
                     {data.paymentid}
+                  </td>
+                  <td className="border-2 border-black text-center">
+                    {data.amount}
+                  </td>
+                  <td className="border-2 border-black text-center">
+                    {data.date}
                   </td>
                 </tr>
               ))}
