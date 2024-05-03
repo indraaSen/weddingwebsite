@@ -37,9 +37,12 @@ name VARCHAR(200) NOT NULL,
 email VARCHAR(100) NOT NULL,
 contact VARCHAR(50) NOT NULL,
 orderid VARCHAR(100) NOT NULL UNIQUE,
-paymentid  VARCHAR(100) UNIQUE
+paymentid  VARCHAR(100) UNIQUE,
+amount VARCHAR(50),
+date VARCHAR(50) UNIQUE
 )
 `;
+
 pool
   .query(createTableQuery)
   .then(() => console.log("Table created successfully"))
@@ -127,7 +130,6 @@ app.post("/login", async (req, res) => {
   }
 });
 
-//it is the middleware to authenticate user
 const authenticateToken = (req, res, next) => {
   const authHeader = req.headers["authorization"];
 
@@ -163,13 +165,15 @@ app.post("/order/create", async (req, res) => {
     const order = await razorpay.orders.create(options);
 
     const query =
-      "INSERT INTO paymenthistory (name, email, contact, orderid, paymentid) VALUES ($1, $2, $3, $4, $5)";
+      "INSERT INTO paymenthistory (name, email, contact, orderid, paymentid, amount, date) VALUES ($1, $2, $3, $4, $5, $6, $7)";
     const values = [
       customer.name,
       customer.email,
       customer.contact,
       order.id,
       null,
+      amount,
+      new Date().toISOString().split("T")[0],
     ];
     await pool.query(query, values);
 
