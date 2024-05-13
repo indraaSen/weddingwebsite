@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { appId, retriveUser } from "../../APIs/API";
+import { makePayment, retriveUser } from "../../APIs/API";
 import HeaderComponent from "../HeaderComponent/HeaderComponent";
 import { setOpenLogout } from "../../MainStore/Slice/LoginReducer/LoginReducer";
 import LogoutComponent from "../LogoutComponent/LogoutComponent";
@@ -13,6 +13,7 @@ import logo from "../../Images/logo.jpg";
 import PopupComponent from "../../Module/PopupComponent/PopupComponent";
 import useRazorpay from "react-razorpay";
 import FooterComponent from "../FooterComponent/FooterComponent";
+import styless from "./HomeComponent.module.scss";
 
 const HomeComponent = () => {
   const openLogoutBtn = useSelector((state) => state.login.openLogout);
@@ -42,70 +43,18 @@ const HomeComponent = () => {
     } else {
       setIsLoading4(true);
     }
-    makePayment(data);
-  };
-
-  const makePayment = async (data) => {
-    try {
-      if (!userData) {
-        setMessage("Login in to buy this package!");
-        setOpen(true);
-      } else {
-        const response = await fetch("http://localhost:8000/order/create", {
-          method: "POST",
-          body: JSON.stringify({
-            amount: data?.amount,
-            currency: data?.currency,
-            receipt: data?.receipt,
-            customer: {
-              name: userData?.name,
-              email: userData?.email,
-              contact: userData?.contact,
-            },
-          }),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-        const order = await response.json();
-        setIsLoading1(false);
-        setIsLoading2(false);
-        setIsLoading3(false);
-        setIsLoading4(false);
-        if (order.status === 500) {
-          alert(order.msg);
-        } else {
-          const options = {
-            key: appId,
-            amount: order?.order.amount,
-            currency: "INR",
-            name: "Wedding wale",
-            description: "Hum shadi karate hai.",
-            image: { logo },
-            order_id: order.order.id,
-            callback_url: "http://localhost:8000/order/validate",
-            prefill: {
-              name: userData?.name,
-              email: userData?.email,
-              contact: userData?.contact,
-            },
-            notes: {
-              address: "Razorpay Corporate Office",
-            },
-            userName: order.order.notes.userName,
-            email: order.order.notes.userEmail,
-            contact: order.order.notes.userContact,
-            theme: {
-              color: "#3399cc",
-            },
-          };
-          const razor = new Razorpay(options);
-          razor.open();
-        }
-      }
-    } catch (error) {
-      alert("Something went wrong!");
-    }
+    makePayment(
+      userData,
+      setMessage,
+      setOpen,
+      setIsLoading1,
+      setIsLoading2,
+      setIsLoading3,
+      setIsLoading4,
+      logo,
+      Razorpay,
+      data
+    );
   };
 
   const handleLogoutClick = () => {
@@ -124,17 +73,19 @@ const HomeComponent = () => {
       </div>
       {/* main body starts here */}
       <main className="w-full h-auto">
-        <div className=" w-full h-96 relative bg-gray-500 ">
+        <div
+          className={`${styless["header-image"]} w-full h-[500px] relative bg-gray-500`}
+        >
           {openSidebarBtn && <SidebarComponent position="fixed z-20" />}
 
           <img
-            className="hidden md:block w-full h-full object-cover"
+            className={`hidden md:block w-full h-full object-cover`}
             src={bodyBg}
             alt="background img"
           />
           <div className="hidden md:block absolute inset-0 bg-gradient-to-t from-transparent to-white opacity-40"></div>
-          <div className="absolute top-20 left-[30%] md:top-[12%] md:left-[74%] md:right-0 md:bottom-[70%] flex items-center justify-center z-10">
-            <p className=" text-4xl font-semibold italic text-white">
+          <div className="absolute top-20 left-[30%] md:top-[12%] md:left-[74%] md:right-0 md:bottom-[50%] flex items-center justify-center z-10">
+            <p className="text-4xl font-semibold italic text-white">
               Who are we?
             </p>
           </div>
@@ -158,8 +109,12 @@ const HomeComponent = () => {
           </div>
         </div>
         {/* offer section starts here */}
-        <div className=" h-auto w-full border-r-4 border-b-4 border-t-0 border-l-0 rounded-r-2xl border-yellow-300 grid justify-center items-center md:flex md:place-content-between md:p-5">
-          <div className="h-96 w-64 grid items-center justify-center p-5">
+        <div
+          className={`h-auto w-full border-r-4 border-b-4 border-t-0 border-l-0 rounded-r-2xl border-yellow-300 grid justify-center items-center md:flex md:place-content-between md:p-5`}
+        >
+          <div
+            className={`${styless["scroll-offercard1"]} h-96 w-64 grid items-center justify-center p-5`}
+          >
             <div
               className={`h-16 w-16 border-4 border-yellow-900 flex items-center justify-center rounded-full`}
             >
@@ -207,7 +162,9 @@ const HomeComponent = () => {
             </div>
           </div>
 
-          <div className="h-96 w-64  grid items-center justify-center p-5">
+          <div
+            className={`${styless["scroll-offercard2"]} h-96 w-64  grid items-center justify-center p-5`}
+          >
             <div className="  h-16 w-16 border-4 border-slate-500 flex items-center justify-center rounded-full">
               <h1 className="text-2xl font-bold text-slate-500">S</h1>
             </div>
@@ -248,7 +205,9 @@ const HomeComponent = () => {
               </div>
             </div>
           </div>
-          <div className="h-96 w-64  grid items-center justify-center p-5">
+          <div
+            className={`${styless["scroll-offercard3"]} h-96 w-64  grid items-center justify-center p-5`}
+          >
             <div className="  h-16 w-16 border-4 border-yellow-500 flex items-center justify-center rounded-full">
               <h1 className="text-2xl font-bold text-yellow-500">G</h1>
             </div>
@@ -289,7 +248,9 @@ const HomeComponent = () => {
               </div>
             </div>
           </div>
-          <div className="h-96 w-64  grid items-center justify-center p-5">
+          <div
+            className={`${styless["scroll-offercard4"]} "h-96 w-64  grid items-center justify-center p-5"`}
+          >
             <div className="  h-16 w-16 border-4 border-gray-400 flex items-center justify-center rounded-full">
               <h1 className="text-2xl font-bold text-gray-400">P</h1>
             </div>
@@ -333,8 +294,8 @@ const HomeComponent = () => {
         </div>
         {/* offer section ends here */}
         {/* user comment section */}
-        <div className="h-auto w-full mt-5">
-          <div className="relative h-[450px] w-full border-4 border-gray-300 rounded-md mb-5 md:flex md:h-96">
+        <div className={`${styless["scroll-images"]} h-auto w-full mt-5`}>
+          <div className=" relative h-[450px] w-full border-4 border-gray-300 rounded-md mb-5 md:flex md:h-96">
             <div className="md:w-[50%] md:h-full md:flex md:flex-col md:items-center md:justify-center">
               <h1 className="text-xl font-semibold flex items-center justify-center text-center pt-2">
                 What Neha and Ishan is saying about bada event wala!
@@ -351,13 +312,13 @@ const HomeComponent = () => {
             </div>
             <div className="absolute bottom-0 h-60 w-full md:w-[50%] md:h-full md:right-0">
               <img
-                className="rounded-lg p-1 h-full w-full object-cover "
+                className={`rounded-lg p-1 h-full w-full object-cover`}
                 src={weddingPhoto1}
                 alt="weddingPhoto1"
               />
             </div>
           </div>
-          <div className="relative h-[450px] w-full border-4 border-gray-300 rounded-md mb-5">
+          <div className=" relative h-[450px] w-full border-4 border-gray-300 rounded-md mb-5">
             <div className="md:w-[50%] md:h-full md:flex md:flex-col md:items-center md:justify-center">
               <h1 className="text-xl font-semibold flex items-center justify-center text-center pt-2">
                 What Suraj and taniya is saying about bada event wala!
@@ -380,7 +341,7 @@ const HomeComponent = () => {
               />
             </div>
           </div>
-          <div className="relative h-[450px] w-full border-4 border-gray-300 rounded-md">
+          <div className=" relative h-[450px] w-full border-4 border-gray-300 rounded-md">
             <div className="md:w-[50%] md:h-full md:flex md:flex-col md:items-center md:justify-center">
               <h1 className="text-xl font-semibold flex items-center justify-center text-center pt-2">
                 What Naruto and Hinata is saying about bada event wala!

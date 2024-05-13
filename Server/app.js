@@ -37,7 +37,7 @@ name VARCHAR(200) NOT NULL,
 email VARCHAR(100) NOT NULL,
 contact VARCHAR(50) NOT NULL,
 orderid VARCHAR(100) NOT NULL UNIQUE,
-paymentid  VARCHAR(100) UNIQUE,
+paymentid VARCHAR(100) UNIQUE,
 amount VARCHAR(50),
 date VARCHAR(50) UNIQUE
 )
@@ -45,12 +45,12 @@ date VARCHAR(50) UNIQUE
 
 pool
   .query(createTableQuery)
-  .then(() => console.log("Table created successfully"))
+  .then(() => console.log("User Table created successfully"))
   .catch((err) => console.error("Error creating table:", err));
 
 pool
   .query(createPaymentHistoryTable)
-  .then(() => console.log("Table created successfully"))
+  .then(() => console.log("Payment Table created successfully"))
   .catch((err) => console.error("Error creating table:", err));
 
 const razorpay = new Razorpay({
@@ -77,17 +77,17 @@ app.post("/signup", async (req, res) => {
       return res.status(400).json({ error: "Email already exists!" });
     }
 
-    // bcrypt the password before saving
+    //bcrypt the password before saving
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // saving user
+    //saving user
     const query =
       "INSERT INTO userdata (name, email, password, contact) VALUES ($1, $2, $3, $4)";
     const values = [name, email, hashedPassword, contact];
 
     await pool.query(query, values);
 
-    res.json({ message: "Data received and saved successfully!" });
+    res.json({ status: 200, message: "Data received and saved successfully!" });
   } catch (error) {
     res.status(500).json({ message: "Error processing data" });
   }
@@ -104,6 +104,7 @@ app.post("/login", async (req, res) => {
     if (!user.rows[0]) {
       return res.status(404).json({ error: "Invalid credentials" });
     }
+
     const isPassword = await bcrypt.compare(password, user.rows[0].password);
 
     if (!isPassword) {
@@ -132,7 +133,6 @@ app.post("/login", async (req, res) => {
 
 const authenticateToken = (req, res, next) => {
   const authHeader = req.headers["authorization"];
-
   const token = authHeader && authHeader.split(" ")[1];
 
   if (!token) {
@@ -220,6 +220,7 @@ app.post("/order/validate", async (req, res) => {
   }
 });
 
+//get payment details api
 app.post("/find/paymenthistory", async (req, res) => {
   const { email } = req.body;
   try {

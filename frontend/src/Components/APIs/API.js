@@ -1,6 +1,6 @@
 import { setUserData } from "../MainStore/Slice/LoginReducer/LoginReducer";
 
-export const appId = "YOUR_RAZORPAY_KEY_ID";
+export const appId = "YOUR_RAZORPAY_API_ID";
 export const secret = "YOUR_RAZORPAY_SECRET_KEY";
 
 //to add new users
@@ -104,6 +104,81 @@ export const retriveUser = (dispatch) => {
     }
   } catch (error) {
     console.log(error);
+  }
+};
+
+//to make payment
+export const makePayment = async (
+  userData,
+  setMessage,
+  setOpen,
+  setIsLoading1,
+  setIsLoading2,
+  setIsLoading3,
+  setIsLoading4,
+  logo,
+  Razorpay,
+  data
+) => {
+  try {
+    if (!userData) {
+      setMessage("Login in to buy this package!");
+      setOpen(true);
+    } else {
+      const response = await fetch("http://localhost:8000/order/create", {
+        method: "POST",
+        body: JSON.stringify({
+          amount: data?.amount,
+          currency: data?.currency,
+          receipt: data?.receipt,
+          customer: {
+            name: userData?.name,
+            email: userData?.email,
+            contact: userData?.contact,
+          },
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const order = await response.json();
+      setIsLoading1(false);
+      setIsLoading2(false);
+      setIsLoading3(false);
+      setIsLoading4(false);
+      if (order.status === 500) {
+        alert(order.msg);
+      } else {
+        const options = {
+          key: appId,
+          amount: order?.order.amount,
+          currency: "INR",
+          name: "Wedding wale",
+          description: "Hum shadi karate hai.",
+          image: { logo },
+          order_id: order.order.id,
+          callback_url: "http://localhost:8000/order/validate",
+          prefill: {
+            name: userData?.name,
+            email: userData?.email,
+            contact: userData?.contact,
+          },
+          notes: {
+            address: "Razorpay Corporate Office",
+          },
+          userName: order.order.notes.userName,
+          email: order.order.notes.userEmail,
+          contact: order.order.notes.userContact,
+          theme: {
+            color: "#3399cc",
+          },
+        };
+        const razor = new Razorpay(options);
+        razor.open();
+      }
+    }
+  } catch (error) {
+    alert("Something went wrong!");
   }
 };
 
