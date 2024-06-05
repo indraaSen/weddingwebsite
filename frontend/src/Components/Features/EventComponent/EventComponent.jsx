@@ -1,46 +1,86 @@
 import * as React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { retriveUser } from "../../APIs/API";
 import HeaderComponent from "../HeaderComponent/HeaderComponent";
-import { setOpenLogout } from "../../MainStore/Slice/LoginReducer/LoginReducer";
-import LogoutComponent from "../LogoutComponent/LogoutComponent";
-import SidebarComponent from "../SidebarComponent/SidebarComponent";
 import FooterComponent from "../FooterComponent/FooterComponent";
+import video1 from "../../Videos/salmanKhanVid.mp4";
+import video2 from "../../Videos/sardarKhanVid.mp4";
+import video3 from "../../Videos/randomGirlVid.mp4";
+import video4 from "../../Videos/cillianMurphyVid.mp4";
+import styless from "./EventComponent.module.scss";
 
 const EventComponent = () => {
-  const openLogoutBtn = useSelector((state) => state.login.openLogout);
-  const openSidebarBtn = useSelector((state) => state.login.openSidebar);
   const dispatch = useDispatch();
 
   React.useEffect(() => {
     retriveUser(dispatch);
   }, [dispatch]);
 
-  const handleLogoutClick = () => {
-    dispatch(setOpenLogout({ openLogout: false }));
-  };
-
   return (
     <div className="flex flex-col min-h-[100vh] ">
       <div>
         <HeaderComponent />
-        <div
-          onClick={() => handleLogoutClick()}
-          className={` absolute z-20 h-screen w-full ${
-            openLogoutBtn ? "block" : "hidden"
-          }`}
-        >
-          {openLogoutBtn && <LogoutComponent />}
+      </div>
+      <div className="bg-red-500">
+        <div className=" md:flex justify-center items-center">
+          <h1 className="m-5 p-2 rounded-md text-2xl font-semibold border-2 border-gray-500 flex justify-center w-[90%] md:w-[40%]">
+            Moments of our happy customers
+          </h1>
         </div>
-        <div>
-          {openSidebarBtn && <SidebarComponent position="absolute z-20" />}
+        <div className=" w-full h-auto flex-1">
+          <div className={styless["videos"]}>
+            <div className="grid justify-center items-center pt-12 bg-slate-50 m-2 rounded-md">
+              <video className="h-40 w-80 border-2 border-black" controls>
+                <source
+                  src={video1}
+                  type="video/mp4"
+                  className="border-2 border-black"
+                />
+              </video>
+              <span className="flex items-center justify-center m-5 font-semibold">
+                Salman Khan - 19/05/2024
+              </span>
+            </div>
+            <div className="grid justify-center items-center pt-12 bg-slate-50 m-2 rounded-md">
+              <video className="h-40 w-80 border-2 border-black" controls>
+                <source
+                  src={video2}
+                  type="video/mp4"
+                  className="border-2 border-black"
+                />
+              </video>
+              <span className="flex items-center justify-center m-5 font-semibold">
+                sardar Khan - 19/05/2024
+              </span>
+            </div>
+            <div className="grid justify-center items-center pt-12 bg-slate-50 m-2 rounded-md">
+              <video className="h-40 w-80 border-2 border-black" controls>
+                <source
+                  src={video3}
+                  type="video/mp4"
+                  className="border-2 border-black"
+                />
+              </video>
+              <span className="flex items-center justify-center m-5 font-semibold">
+                Random Girl - 19/05/2024
+              </span>
+            </div>
+            <div className="grid justify-center items-center pt-12 bg-slate-50 m-2 rounded-md">
+              <video className="h-40 w-80 border-2 border-black" controls>
+                <source
+                  src={video4}
+                  type="video/mp4"
+                  className="border-2 border-black"
+                />
+              </video>
+              <span className="flex items-center justify-center m-5 font-semibold">
+                Cillian Murphy - 19/05/2024
+              </span>
+            </div>
+          </div>
         </div>
       </div>
-      <div className=" w-full h-auto flex-1">
-        <h1 className="m-5 text-2xl font-semibold underline flex justify-center">
-          No video available.
-        </h1>
-      </div>
+
       <div>
         <FooterComponent />
       </div>

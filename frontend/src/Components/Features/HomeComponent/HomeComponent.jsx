@@ -1,23 +1,35 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { makePayment, retriveUser } from "../../APIs/API";
 import HeaderComponent from "../HeaderComponent/HeaderComponent";
-import { setOpenLogout } from "../../MainStore/Slice/LoginReducer/LoginReducer";
-import LogoutComponent from "../LogoutComponent/LogoutComponent";
-import SidebarComponent from "../SidebarComponent/SidebarComponent";
-import bodyBg from "../../Images/bodyBg.jpg";
-import weddingPhoto1 from "../../Images/weddingPhoto1.jpg";
-import weddingPhoto2 from "../../Images/weddingPhoto2.jpg";
-import weddingPhoto3 from "../../Images/weddingPhoto3.jpg";
+import beach from "../../Images/beachwedding.jpg";
+import hillwedding from "../../Images/hillwedding.png";
+import destinationwedding from "../../Images/destinationwedding.jpg";
+import weddingimg from "../../Images/weddingimg.jpg";
+import brideimg from "../../Images/brideimg.jpg";
+import wedding1 from "../../Images/wedding1.jpg";
+import borderdesign from "../../Images/borderdesign.png";
 import logo from "../../Images/logo.jpg";
 import PopupComponent from "../../Module/PopupComponent/PopupComponent";
 import useRazorpay from "react-razorpay";
 import FooterComponent from "../FooterComponent/FooterComponent";
 import styless from "./HomeComponent.module.scss";
 
+const comments = [
+  {
+    name: "SURAJ AND CHANDNI",
+    comment:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus molestias corrupti debitis nostrum? Inventore, repellendus perspiciatis! Quasi at voluptatem earum pariatur vitae officia dignissimos quam, oremque officiis. Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui, unde.",
+    image: wedding1,
+  },
+  {
+    name: "SANJAY AND SUMITRA",
+    comment:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus molestias corrupti debitis nostrum? Inventore, repellendus perspiciatis! Quasi at voluptatem earum pariatur vitae officia dignissimos quam, oremque officiis. Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui, unde.",
+    image: brideimg,
+  },
+];
 const HomeComponent = () => {
-  const openLogoutBtn = useSelector((state) => state.login.openLogout);
-  const openSidebarBtn = useSelector((state) => state.login.openSidebar);
   const userData = useSelector((state) => state.login.userdata);
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
@@ -26,6 +38,7 @@ const HomeComponent = () => {
   const [isLoading2, setIsLoading2] = useState(false);
   const [isLoading3, setIsLoading3] = useState(false);
   const [isLoading4, setIsLoading4] = useState(false);
+  const [count, setCount] = React.useState(0);
 
   useEffect(() => {
     retriveUser(dispatch);
@@ -34,14 +47,19 @@ const HomeComponent = () => {
   const [Razorpay] = useRazorpay();
 
   const handlePayment = (data) => {
-    if (data.amount === "500") {
+    if (userData?.user && data.amount === "500") {
       setIsLoading1(true);
-    } else if (data.amount === "700") {
+    } else if (userData?.user && data.amount === "700") {
       setIsLoading2(true);
-    } else if (data.amount === "1000") {
+    } else if (userData?.user && data.amount === "1000") {
       setIsLoading3(true);
-    } else {
+    } else if (userData?.user && data.amount === "1500") {
       setIsLoading4(true);
+    } else {
+      setIsLoading1(false);
+      setIsLoading2(false);
+      setIsLoading3(false);
+      setIsLoading4(false);
     }
     makePayment(
       userData,
@@ -57,334 +75,316 @@ const HomeComponent = () => {
     );
   };
 
-  const handleLogoutClick = () => {
-    dispatch(setOpenLogout({ openLogout: false }));
-  };
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      setCount(count + 1);
+    }, 3000);
+    if (count > comments.length - 1) {
+      setCount(0);
+    }
+    return () => clearInterval(interval);
+  }, [count]);
+
   return (
     <>
       <HeaderComponent />
-      <div
-        onClick={() => handleLogoutClick()}
-        className={`absolute z-20 h-screen w-full ${
-          openLogoutBtn ? "block" : "hidden"
-        }`}
-      >
-        {openLogoutBtn && <LogoutComponent />}
+      {/* container 2 start  */}
+      <div className={styless["container2"]}>
+        <span className={styless["container2-text1"]}>
+          BEAUTIFUL DESTINATION WEDDINGS IN INDIA
+        </span>
+        <span className={styless["container2-text2"]}>BY NW-SHADIWALE</span>
+        <span className={styless["container2-text3"]}>
+          WE CAN MAKE YOUR DREAM <br />
+          WEDDING SUCCESSFUL <br />
+          TRUST US
+        </span>
+        <p className={styless["container2-text4"]}>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum ex iste
+          quasi blanditiis dicta neque quae voluptatem, laborum molestiae
+          dolorem itaque? Animi iure, voluptatum quaerat eveniet corrupti ullam
+          incidunt nisi officiis doloremque repellat nostrum, hic suscipit
+          distinctio. Ratione dolor, commodi, ut, esse sed quaerat repudiandae
+          delectus officia tenetur deserunt accusantium! Lorem ipsum dolor sit
+          amet consectetur adipisicing elit. Cum ex iste quasi blanditiis dicta
+          neque quae voluptatem, laborum molestiae dolorem itaque? Animi iure.
+        </p>
       </div>
-      {/* main body starts here */}
-      <main className="w-full h-auto">
-        <div
-          className={`${styless["header-image"]} w-full h-[500px] relative bg-gray-500`}
-        >
-          {openSidebarBtn && <SidebarComponent position="fixed z-20" />}
-
+      {/* container 2 end  */}
+      {/* container 3  */}
+      <div className={styless["container3"]}>
+        <div className={styless["container3-col-1"]}>
+          <span className={styless["container3-col-1-text-1"]}>
+            Shubh-mangal <br />
+            Savdhan <br />
+            on beach
+          </span>
           <img
-            className={`hidden md:block w-full h-full object-cover`}
-            src={bodyBg}
-            alt="background img"
+            className={styless["container3-col-1-img-1"]}
+            src={beach}
+            alt="wedding image"
           />
-          <div className="hidden md:block absolute inset-0 bg-gradient-to-t from-transparent to-white opacity-40"></div>
-          <div className="absolute top-20 left-[30%] md:top-[12%] md:left-[74%] md:right-0 md:bottom-[50%] flex items-center justify-center z-10">
-            <p className="text-4xl font-semibold italic text-white">
-              Who are we?
-            </p>
-          </div>
-          <div className=" absolute w-auto top-36  md:top-40 md:left-[74%] md:right-0 md:bottom-0 flex items-center justify-center z-10">
-            <span className=" text-2xl font-semibold italic text-center">
-              <span>We are party planners!</span> <br />
-              <p className="text-xs text-center mt-4 p-2 md:w-96">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum
-                deserunt sapiente repudiandae possimus ad, est natus corporis
-                hic assumenda totam, nostrum porro dolore, aspernatur adipisci
-                iure quaerat vitae voluptate. Nesciunt labore esse eligendi
-                molestias repellat quisquam vero facilis. Nam expedita,
-                cupiditate quas deserunt sapiente, suscipit neque necessitatibus
-                reiciendis quasi, eaque deleniti inventore esse dolorum atque
-                officiis laudantium. Delectus, quos id totam pariatur
-                consectetur consequatur sint ex quod magni libero nostrum quia
-                suscipit fugiat, assumenda corporis debitis unde rem possimus
-                molestias?
-              </p>
-            </span>
-          </div>
+          <h3 className={styless["container3-col-1-text-2"]}>
+            GET THE WEDDING OF <br />
+            YOUR DREAMS
+          </h3>
+          <p className={styless["container3-col-1-text-3"]}>
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Placeat,
+            quis. Nesciunt aperiam repellat, tempore labore dolorum asperiores,
+            possimus alias, maxime vel deleniti doloribus! Sapiente ducimus
+            sequi beatae, iure excepturi fuga!
+          </p>
+          <img
+            className={styless["container3-col-1-img-2"]}
+            src={weddingimg}
+            alt="wedding image"
+          />
         </div>
-        {/* offer section starts here */}
+        <div className={styless["container3-col-2"]}>
+          <h2 className={styless["container3-col-2-text-1"]}>
+            DESTINATION <br />
+            WEDDING
+          </h2>
+          <span className={styless["container3-col-2-text-2"]}>
+            Wedding in Hills
+          </span>
+          <img
+            className={styless["container3-col-2-img-1"]}
+            src={hillwedding}
+            alt="wedding image"
+          />
+          <span className={styless["container3-col-2-text-3"]}>
+            Vows on Destination
+          </span>
+          <img
+            className={styless["container3-col-2-img-2"]}
+            src={destinationwedding}
+            alt="wedding image"
+          />
+        </div>
+      </div>
+      {/* container 3 end  */}
+      {/* container 4  */}
+      <div className={styless["container4"]}>
+        <span className={styless["container4-text-1"]}>
+          LEAVE YOUR WEDDING PLANNING TO OUR EXPERT <br />
+          PLANNERS AND ENJOY YOUR WEDDING FESTIVITIES.
+        </span>
+        <h2 className={styless["container4-text-2"]}>SHAADI SPECIALIST</h2>
+        <img
+          className={styless["container4-img-1"]}
+          src={borderdesign}
+          alt="border img"
+        />
+        <img
+          className={styless["container4-img-2"]}
+          src={brideimg}
+          alt="bride img"
+        />
+        <div className={styless["container4-div-1"]}>
+          <button className={styless["container4-text-3"]}>Learn More</button>
+        </div>
+      </div>
+      {/* container 4 end */}
+      {/* container 5  */}
+      <div
+        className={`h-auto w-full border-r-4 border-b-4 border-t-0 border-l-0 rounded-r-2xl border-yellow-300 grid justify-center items-center md:flex md:place-content-between md:p-5`}
+      >
         <div
-          className={`h-auto w-full border-r-4 border-b-4 border-t-0 border-l-0 rounded-r-2xl border-yellow-300 grid justify-center items-center md:flex md:place-content-between md:p-5`}
+          className={`${styless["scroll-offercard1"]} h-96 w-64 grid items-center justify-center p-5`}
         >
           <div
-            className={`${styless["scroll-offercard1"]} h-96 w-64 grid items-center justify-center p-5`}
+            className={`h-16 w-16 border-4 border-yellow-900 flex items-center justify-center rounded-full`}
           >
-            <div
-              className={`h-16 w-16 border-4 border-yellow-900 flex items-center justify-center rounded-full`}
-            >
-              <h1 className={`text-2xl font-bold text-yellow-900`}>B</h1>
-            </div>
-            <div
-              className={`h-72 w-56 border-8 rounded-2xl border-r-yellow-800 border-b-yellow-800 border-l-0 border-t-0`}
-            >
-              <div className="h-full w-full border-l-4 rounded-xl ">
-                <h1
-                  className={`w-full h-[75px] flex justify-center items-center text-xl font-semibold text-yellow-800`}
+            <h1 className={`text-2xl font-bold text-yellow-900`}>B</h1>
+          </div>
+          <div
+            className={`h-72 w-56 border-8 rounded-2xl border-r-yellow-800 border-b-yellow-800 border-l-0 border-t-0`}
+          >
+            <div className="h-full w-full border-l-4 rounded-xl ">
+              <h1
+                className={`w-full h-[75px] flex justify-center items-center text-xl font-semibold text-yellow-800`}
+              >
+                Bronze Plan
+              </h1>
+              <p className="w-full h-16 font-medium flex items-center justify-center ">
+                Help in Haldi, Shadi.
+              </p>
+              <p className="w-full h-12 flex items-center justify-center font-semibold">
+                ₹ 500/-
+              </p>
+
+              <div className="flex items-center justify-center ">
+                <button
+                  onClick={() =>
+                    handlePayment({
+                      amount: "500",
+                      currency: "INR",
+                      receipt: `bronze plan ${Math.random()}`,
+                      userdata: userData,
+                    })
+                  }
+                  className={`h-10 w-24 border-2 bg-yellow-900 rounded-md text-white hover:bg-yellow-700 hover:text-black font-medium`}
                 >
-                  Bronze Plan
-                </h1>
-                <p className="w-full h-16 font-medium flex items-center justify-center ">
-                  Help in Haldi, Shadi.
-                </p>
-                <p className="w-full h-12 flex items-center justify-center font-semibold">
-                  ₹ 500/-
-                </p>
-
-                <div className="flex items-center justify-center ">
-                  <button
-                    onClick={() =>
-                      handlePayment({
-                        amount: "500",
-                        currency: "INR",
-                        receipt: `bronze plan ${Math.random()}`,
-                        userdata: userData,
-                      })
-                    }
-                    className={`h-10 w-24 border-2 bg-yellow-900 rounded-md text-white hover:bg-yellow-700 hover:text-black font-medium`}
-                  >
-                    {isLoading1 ? (
-                      <i class="fa fa-spinner fa-spin"></i>
-                    ) : (
-                      "Buy Now"
-                    )}
-                  </button>
-                </div>
-                <div className=" pl-5 h-14 flex items-center">
-                  <p className="text-xs text-blue-600">T&C Apply!</p>
-                </div>
+                  {isLoading1 ? (
+                    <i class="fa fa-spinner fa-spin"></i>
+                  ) : (
+                    "Buy Now"
+                  )}
+                </button>
               </div>
-            </div>
-          </div>
-
-          <div
-            className={`${styless["scroll-offercard2"]} h-96 w-64  grid items-center justify-center p-5`}
-          >
-            <div className="  h-16 w-16 border-4 border-slate-500 flex items-center justify-center rounded-full">
-              <h1 className="text-2xl font-bold text-slate-500">S</h1>
-            </div>
-            <div className="h-72 w-56 border-8 rounded-2xl border-r-slate-500 border-b-slate-500 border-l-0 border-t-0">
-              <div className="h-full w-full border-l-4 rounded-xl ">
-                <h1 className="  w-full h-[75px] flex justify-center items-center text-xl font-semibold text-slate-500">
-                  Silver Plan
-                </h1>
-                <p className="w-full h-16 font-medium text-center flex items-center justify-center ">
-                  Help in Sangeet, Haldi, Shadi.
-                </p>
-                <p className="w-full h-12 flex items-center justify-center font-semibold">
-                  ₹ 700/-
-                </p>
-
-                <div className="flex items-center justify-center ">
-                  <button
-                    onClick={() =>
-                      handlePayment({
-                        amount: "700",
-                        currency: "INR",
-                        receipt: `silver plan ${Math.random()}`,
-                        userdata: userData,
-                      })
-                    }
-                    className="h-10 w-24 border-2 bg-slate-500 rounded-md text-white hover:bg-slate-300 hover:text-black font-medium"
-                  >
-                    {isLoading2 ? (
-                      <i class="fa fa-spinner fa-spin"></i>
-                    ) : (
-                      "Buy Now"
-                    )}
-                  </button>
-                </div>
-                <div className=" pl-5 h-14 flex items-center">
-                  <p className="text-xs text-blue-600">T&C Apply!</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            className={`${styless["scroll-offercard3"]} h-96 w-64  grid items-center justify-center p-5`}
-          >
-            <div className="  h-16 w-16 border-4 border-yellow-500 flex items-center justify-center rounded-full">
-              <h1 className="text-2xl font-bold text-yellow-500">G</h1>
-            </div>
-            <div className="h-72 w-56 border-8 rounded-2xl border-r-yellow-500 border-b-yellow-500 border-l-0 border-t-0">
-              <div className="h-full w-full border-l-4 rounded-xl ">
-                <h1 className="  w-full h-[75px] flex justify-center items-center text-xl font-semibold text-yellow-500">
-                  Gold Plan
-                </h1>
-                <p className="w-full h-16 font-medium flex items-center justify-center text-center">
-                  Help in Mehndi, Sangeet, Haldi, Shadi.
-                </p>
-                <p className="w-full h-12 flex items-center justify-center font-semibold">
-                  ₹ 1000/-
-                </p>
-
-                <div className="flex items-center justify-center ">
-                  <button
-                    onClick={() =>
-                      handlePayment({
-                        amount: "1000",
-                        currency: "INR",
-                        receipt: `Gold plan ${Math.random()}`,
-                        userdata: userData,
-                      })
-                    }
-                    className="h-10 w-24 border-2 bg-yellow-500 rounded-md text-white hover:bg-yellow-300 hover:text-black font-medium "
-                  >
-                    {isLoading3 ? (
-                      <i class="fa fa-spinner fa-spin"></i>
-                    ) : (
-                      "Buy Now"
-                    )}
-                  </button>
-                </div>
-                <div className="pt-5 pl-5">
-                  <p className="text-xs text-blue-600">T&C Apply!</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            className={`${styless["scroll-offercard4"]} "h-96 w-64  grid items-center justify-center p-5"`}
-          >
-            <div className="  h-16 w-16 border-4 border-gray-400 flex items-center justify-center rounded-full">
-              <h1 className="text-2xl font-bold text-gray-400">P</h1>
-            </div>
-            <div className="h-72 w-56 border-8 rounded-2xl border-r-gray-400 border-b-gray-400 border-l-0 border-t-0">
-              <div className="h-full w-full border-l-4 rounded-xl ">
-                <h1 className=" w-full h-[75px] flex justify-center items-center text-xl font-semibold text-gray-400">
-                  Platinum Plan
-                </h1>
-                <p className="w-full h-16 font-medium flex items-center justify-center text-center ">
-                  Help in Mehndi, Sangeet, Haldi, Shadi, Rasoyi.
-                </p>
-                <p className="w-full h-12 flex items-center justify-center font-semibold">
-                  ₹ 1500/-
-                </p>
-
-                <div className=" flex items-center justify-center ">
-                  <button
-                    onClick={() =>
-                      handlePayment({
-                        amount: "1500",
-                        currency: "INR",
-                        receipt: `Platinum plan ${Math.random()}`,
-                        userdata: userData,
-                      })
-                    }
-                    className="h-10 w-24 border-2 bg-gray-400 rounded-md text-white hover:bg-gray-200 hover:text-black font-medium"
-                  >
-                    {isLoading4 ? (
-                      <i class="fa fa-spinner fa-spin"></i>
-                    ) : (
-                      "Buy Now"
-                    )}
-                  </button>
-                </div>
-                <div className=" pl-5 h-14 flex items-center">
-                  <p className="text-xs text-blue-600">T&C Apply!</p>
-                </div>
+              <div className=" pl-5 h-14 flex items-center">
+                <p className="text-xs text-blue-600">T&C Apply!</p>
               </div>
             </div>
           </div>
         </div>
-        {/* offer section ends here */}
-        {/* user comment section */}
-        <div className={`${styless["scroll-images"]} h-auto w-full mt-5`}>
-          <div className=" relative h-[450px] w-full border-4 border-gray-300 rounded-md mb-5 md:flex md:h-96">
-            <div className="md:w-[50%] md:h-full md:flex md:flex-col md:items-center md:justify-center">
-              <h1 className="text-xl font-semibold flex items-center justify-center text-center pt-2">
-                What Neha and Ishan is saying about bada event wala!
-              </h1>
-              <p className="text-[12px] flex items-center justify-center text-center pt-3 pl-7 pr-7">
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                Ratione quibusdam, blanditiis rem sequi omnis in vitae voluptate
-                officia, nesciunt eveniet adipisci illum ipsam. Odit labore
-                beatae aliquid accusantium, eos cum numquam aperiam voluptates
-                culpa commodi reiciendis. Neque perferendis autem quis id odio
-                delectus nesciunt laboriosam nulla modi recusandae. Vero,
-                consequatur.
-              </p>
-            </div>
-            <div className="absolute bottom-0 h-60 w-full md:w-[50%] md:h-full md:right-0">
-              <img
-                className={`rounded-lg p-1 h-full w-full object-cover`}
-                src={weddingPhoto1}
-                alt="weddingPhoto1"
-              />
-            </div>
+
+        <div
+          className={`${styless["scroll-offercard2"]} h-96 w-64  grid items-center justify-center p-5`}
+        >
+          <div className="  h-16 w-16 border-4 border-slate-500 flex items-center justify-center rounded-full">
+            <h1 className="text-2xl font-bold text-slate-500">S</h1>
           </div>
-          <div className=" relative h-[450px] w-full border-4 border-gray-300 rounded-md mb-5">
-            <div className="md:w-[50%] md:h-full md:flex md:flex-col md:items-center md:justify-center">
-              <h1 className="text-xl font-semibold flex items-center justify-center text-center pt-2">
-                What Suraj and taniya is saying about bada event wala!
+          <div className="h-72 w-56 border-8 rounded-2xl border-r-slate-500 border-b-slate-500 border-l-0 border-t-0">
+            <div className="h-full w-full border-l-4 rounded-xl ">
+              <h1 className="  w-full h-[75px] flex justify-center items-center text-xl font-semibold text-slate-500">
+                Silver Plan
               </h1>
-              <p className="text-[12px] flex items-center justify-center text-center pt-3 pl-7 pr-7">
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                Ratione quibusdam, blanditiis rem sequi omnis in vitae voluptate
-                officia, nesciunt eveniet adipisci illum ipsam. Odit labore
-                beatae aliquid accusantium, eos cum numquam aperiam voluptates
-                culpa commodi reiciendis. Neque perferendis autem quis id odio
-                delectus nesciunt laboriosam nulla modi recusandae. Vero,
-                consequatur.
+              <p className="w-full h-16 font-medium text-center flex items-center justify-center ">
+                Help in Sangeet, Haldi, Shadi.
               </p>
-            </div>
-            <div className="absolute bottom-0 h-60 w-full md:w-[50%] md:h-full md:right-0">
-              <img
-                className="rounded-lg p-1 h-full w-full object-cover"
-                src={weddingPhoto2}
-                alt="weddingPhoto2"
-              />
-            </div>
-          </div>
-          <div className=" relative h-[450px] w-full border-4 border-gray-300 rounded-md">
-            <div className="md:w-[50%] md:h-full md:flex md:flex-col md:items-center md:justify-center">
-              <h1 className="text-xl font-semibold flex items-center justify-center text-center pt-2">
-                What Naruto and Hinata is saying about bada event wala!
-              </h1>
-              <p className="text-[12px] flex items-center justify-center text-center pt-3 pl-7 pr-7">
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                Ratione quibusdam, blanditiis rem sequi omnis in vitae voluptate
-                officia, nesciunt eveniet adipisci illum ipsam. Odit labore
-                beatae aliquid accusantium, eos cum numquam aperiam voluptates
-                culpa commodi reiciendis. Neque perferendis autem quis id odio
-                delectus nesciunt laboriosam nulla modi recusandae. Vero,
-                consequatur.
+              <p className="w-full h-12 flex items-center justify-center font-semibold">
+                ₹ 700/-
               </p>
-            </div>
-            <div className="absolute bottom-0 h-60 w-full md:w-[50%] md:h-full md:right-0">
-              <img
-                className="rounded-lg p-1 h-full w-full object-cover"
-                src={weddingPhoto3}
-                alt="weddingPhoto3"
-              />
+
+              <div className="flex items-center justify-center ">
+                <button
+                  onClick={() =>
+                    handlePayment({
+                      amount: "700",
+                      currency: "INR",
+                      receipt: `silver plan ${Math.random()}`,
+                      userdata: userData,
+                    })
+                  }
+                  className="h-10 w-24 border-2 bg-slate-500 rounded-md text-white hover:bg-slate-300 hover:text-black font-medium"
+                >
+                  {isLoading2 ? (
+                    <i class="fa fa-spinner fa-spin"></i>
+                  ) : (
+                    "Buy Now"
+                  )}
+                </button>
+              </div>
+              <div className=" pl-5 h-14 flex items-center">
+                <p className="text-xs text-blue-600">T&C Apply!</p>
+              </div>
             </div>
           </div>
         </div>
-        {/* user comment section ends here  */}
-        <div className="border-2 border-gray-600 rounded-md bg-gray-50 mt-5 h-auto w-full flex justify-center items-center text-center flex-col ">
-          <h1 className="font-semibold text-xl p-3">
-            Make your wedding memorable with us!
-          </h1>
-          <p className="pl-5 pr-5 pb-3 italic">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus,
-            excepturi? Odio voluptates nemo quasi ab possimus alias, autem
-            molestias sit, ratione nisi consequatur corporis aut illo. Illum sit
-            ratione officiis?
-          </p>
+        <div
+          className={`${styless["scroll-offercard3"]} h-96 w-64  grid items-center justify-center p-5`}
+        >
+          <div className="  h-16 w-16 border-4 border-yellow-500 flex items-center justify-center rounded-full">
+            <h1 className="text-2xl font-bold text-yellow-500">G</h1>
+          </div>
+          <div className="h-72 w-56 border-8 rounded-2xl border-r-yellow-500 border-b-yellow-500 border-l-0 border-t-0">
+            <div className="h-full w-full border-l-4 rounded-xl ">
+              <h1 className="  w-full h-[75px] flex justify-center items-center text-xl font-semibold text-yellow-500">
+                Gold Plan
+              </h1>
+              <p className="w-full h-16 font-medium flex items-center justify-center text-center">
+                Help in Mehndi, Sangeet, Haldi, Shadi.
+              </p>
+              <p className="w-full h-12 flex items-center justify-center font-semibold">
+                ₹ 1000/-
+              </p>
+
+              <div className="flex items-center justify-center ">
+                <button
+                  onClick={() =>
+                    handlePayment({
+                      amount: "1000",
+                      currency: "INR",
+                      receipt: `Gold plan ${Math.random()}`,
+                      userdata: userData,
+                    })
+                  }
+                  className="h-10 w-24 border-2 bg-yellow-500 rounded-md text-white hover:bg-yellow-300 hover:text-black font-medium "
+                >
+                  {isLoading3 ? (
+                    <i class="fa fa-spinner fa-spin"></i>
+                  ) : (
+                    "Buy Now"
+                  )}
+                </button>
+              </div>
+              <div className="pt-5 pl-5">
+                <p className="text-xs text-blue-600">T&C Apply!</p>
+              </div>
+            </div>
+          </div>
         </div>
-      </main>
-      {/* main body ends here  */}
-      {/* footer starts here  */}
-      <div>
-        <FooterComponent />
+        <div
+          className={`${styless["scroll-offercard4"]} "h-96 w-64  grid items-center justify-center p-5"`}
+        >
+          <div className="  h-16 w-16 border-4 border-gray-400 flex items-center justify-center rounded-full">
+            <h1 className="text-2xl font-bold text-gray-400">P</h1>
+          </div>
+          <div className="h-72 w-56 border-8 rounded-2xl border-r-gray-400 border-b-gray-400 border-l-0 border-t-0">
+            <div className="h-full w-full border-l-4 rounded-xl ">
+              <h1 className=" w-full h-[75px] flex justify-center items-center text-xl font-semibold text-gray-400">
+                Platinum Plan
+              </h1>
+              <p className="w-full h-16 font-medium flex items-center justify-center text-center ">
+                Help in Mehndi, Sangeet, Haldi, Shadi, Rasoyi.
+              </p>
+              <p className="w-full h-12 flex items-center justify-center font-semibold">
+                ₹ 1500/-
+              </p>
+
+              <div className=" flex items-center justify-center ">
+                <button
+                  onClick={() =>
+                    handlePayment({
+                      amount: "1500",
+                      currency: "INR",
+                      receipt: `Platinum plan ${Math.random()}`,
+                      userdata: userData,
+                    })
+                  }
+                  className="h-10 w-24 border-2 bg-gray-400 rounded-md text-white hover:bg-gray-200 hover:text-black font-medium"
+                >
+                  {isLoading4 ? (
+                    <i class="fa fa-spinner fa-spin"></i>
+                  ) : (
+                    "Buy Now"
+                  )}
+                </button>
+              </div>
+              <div className=" pl-5 h-14 flex items-center">
+                <p className="text-xs text-blue-600">T&C Apply!</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      {/* footer ends here */}
-      <PopupComponent open={open} setOpen={setOpen} message={message} />;
+      {/* container 5 end */}
+      {/* container 6 Feedback  */}
+      <div className={styless["container6"]}>
+        <div className={styless["container6-div-1"]}>
+          <h1>OUR HAPPY CUSTOMERS</h1>
+        </div>
+        <div className={styless["container6-div-2"]}>
+          <span>{comments[count]?.name}</span>
+          <p>{comments[count]?.comment}</p>
+          <img src={comments[count]?.image} alt="wedding 1" />
+        </div>
+      </div>
+      {/* container 6 Feedback end  */}
+      <FooterComponent />
+      <PopupComponent open={open} setOpen={setOpen} message={message} />
     </>
   );
 };

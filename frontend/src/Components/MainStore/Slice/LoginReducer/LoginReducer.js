@@ -5,8 +5,7 @@ const LoginReducer = createSlice({
   initialState: {
     isSignUp: false,
     userdata: null,
-    openLogout: false,
-    openSidebar: false,
+    openProfile: false,
   },
   reducers: {
     setIsSignUp: (state, action) => {
@@ -15,15 +14,12 @@ const LoginReducer = createSlice({
     setUserData: (state, action) => {
       state.userdata = action.payload.userdata;
     },
-    setOpenLogout: (state, action) => {
-      state.openLogout = action.payload.openLogout;
-    },
-    setOpenSidebar: (state, action) => {
-      state.openSidebar = action.payload.openSidebar;
+    setOpenProfile: (state, action) => {
+      state.openProfile = action.payload.openProfile;
     },
   },
 });
 
-export const { setIsSignUp, setUserData, setOpenLogout, setOpenSidebar } =
+export const { setIsSignUp, setUserData, setOpenProfile } =
   LoginReducer.actions;
 export default LoginReducer.reducer;

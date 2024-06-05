@@ -11,3 +11,305 @@
   font-weight: 600;
   color: gray;
 }
+.body {
+  width: 100vw;
+}
+
+.container-header {
+  height: 744px;
+  width: 100%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+.container-header nav {
+  position: fixed;
+  top: 0;
+  height: 150px;
+  z-index: 10;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo-img {
+  position: absolute;
+  left: 5%;
+  top: -2%;
+  z-index: 2;
+  height: 150px;
+  width: 200px;
+  filter: brightness(300%);
+}
+
+.home {
+  position: absolute;
+  top: 30%;
+  left: 25%;
+  padding: 20px;
+  z-index: 999px;
+  text-decoration: none;
+  color: white;
+  font-size: 20px;
+}
+.honeymoons {
+  position: absolute;
+  top: 30%;
+  left: 33%;
+  padding: 20px;
+  z-index: 999px;
+  text-decoration: none;
+  color: white;
+  font-size: 20px;
+}
+.services {
+  position: absolute;
+  top: 30%;
+  left: 45%;
+  padding: 20px;
+  z-index: 999px;
+  text-decoration: none;
+  color: white;
+  font-size: 20px;
+}
+.gallery {
+  position: absolute;
+  top: 30%;
+  left: 54%;
+  padding: 20px;
+  z-index: 999px;
+  text-decoration: none;
+  color: white;
+  font-size: 20px;
+}
+.offers {
+  position: absolute;
+  top: 30%;
+  left: 62%;
+  padding: 20px;
+  z-index: 999px;
+  text-decoration: none;
+  color: white;
+  font-size: 20px;
+}
+.container-header nav input {
+  display: none;
+}
+
+.container-header nav label {
+  position: absolute;
+  height: 80px;
+  width: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  right: 0;
+  visibility: hidden;
+  border: 1px solid black;
+}
+
+.content ul {
+  position: absolute;
+  top: 80px;
+  background-color: rgba(227, 255, 182, 0.3);
+  width: 100%;
+  padding: 10px 0 10px 0;
+  visibility: hidden;
+  transition: 1s ease;
+  list-style: none;
+}
+
+.content ul li a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  color: white;
+  padding: 15px;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.content ul li a:hover {
+  background: white;
+  color: black;
+}
+
+#toggle:checked ~ .content ul {
+  visibility: visible;
+}
+
+.home:hover {
+  border-bottom: 1px solid white;
+}
+.honeymoons:hover {
+  border-bottom: 1px solid white;
+}
+.services:hover {
+  border-bottom: 1px solid white;
+}
+.gallery:hover {
+  border-bottom: 1px solid white;
+}
+.offers:hover {
+  border-bottom: 1px solid white;
+}
+
+.sign-in-button {
+  position: absolute;
+  top: 35%;
+  height: 50px;
+  width: 120px;
+  right: 10%;
+  z-index: 3;
+  font-size: 20px;
+  background-color: transparent;
+  color: white;
+  border: 2px solid white;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.sign-in-button:hover {
+  background-color: rgb(155, 37, 37);
+  border: 2px solid rgb(155, 37, 37);
+}
+
+.sidebar {
+  position: absolute;
+  top: 80px;
+  background-color: rgba(148, 145, 134, 0.954);
+  width: 100%;
+  min-height: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.sidebar ul {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.sidebar ul li {
+  width: 100%;
+  font-size: 18px;
+  font-weight: 600;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.sidebar ul li:hover {
+  background-color: white;
+}
+
+/* Media Query for Mobile Devices */
+@media (max-width: 480px) {
+  .home,
+  .honeymoons,
+  .services,
+  .gallery,
+  .offers,
+  .sign-in-button {
+    display: none;
+    visibility: hidden;
+  }
+  .container-header nav {
+    height: 80px;
+  }
+  .logo-img {
+    height: 75px;
+    width: 115px;
+  }
+  .container-header nav label {
+    visibility: visible;
+  }
+}
+
+/* Media Query for low resolution  Tablets, Ipads */
+@media (min-width: 481px) and (max-width: 767px) {
+  .home,
+  .honeymoons,
+  .services,
+  .gallery,
+  .offers,
+  .sign-in-button {
+    display: none;
+  }
+  .container-header nav {
+    height: 80px;
+  }
+  .logo-img {
+    height: 95px;
+    width: 145px;
+    left: 2%;
+  }
+  .container-header nav label {
+    visibility: visible;
+  }
+}
+
+/* Media Query for Tablets Ipads portrait mode */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .container-header {
+    min-width: 768px;
+  }
+  .container-header nav {
+    height: 105px;
+  }
+  .home,
+  .honeymoons,
+  .services,
+  .gallery,
+  .offers {
+    height: 20px;
+    font-size: 16px;
+    padding: 10px;
+    top: 35%;
+  }
+  .sign-in-button {
+    font-size: 16px;
+    height: 35px;
+    width: 90px;
+  }
+  .container-header {
+    height: 600px;
+    width: 100%;
+  }
+  .logo-img {
+    height: 105px;
+    width: 155px;
+    left: 3%;
+    margin-top: 10px;
+  }
+  .home:hover,
+  .honeymoons:hover,
+  .services:hover,
+  .gallery:hover,
+  .offers:hover {
+    border-bottom: 1px solid white;
+  }
+  .content {
+    display: none;
+  }
+}
+
+/* Media Query for Large screens */
+@media (min-width: 1281px) {
+  .content {
+    display: none;
+  }
+
+  .container4-img-1 {
+    position: absolute;
+    top: 45%;
+    height: 320px;
+    width: 350px;
+  }
+}

@@ -1,137 +1,340 @@
 import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink } from "react-router-dom";
-import logo from "../../Images/logo.jpg";
+import { NavLink, useNavigate } from "react-router-dom";
+import logo from "../../Images/pngtree-shaadi-mubarak-hindi-calligraphy-png-image_256436.png";
+import image1 from "../../Images/bodyBg.jpg";
+import image2 from "../../Images/weddingPhoto2.jpg";
 import {
-  setOpenLogout,
-  setOpenSidebar,
+  setOpenProfile,
+  setUserData,
 } from "../../MainStore/Slice/LoginReducer/LoginReducer";
 import styless from "./HeaderComponent.module.scss";
+import LogoutComponent from "../LogoutComponent/LogoutComponent";
 
-const tabs = [
-  { name: "Home", path: "/home" },
-  { name: "Event", path: "/event" },
-  { name: "Contact Us", path: "/contactus" },
-];
-const tabs2 = [
-  { name: "Home", path: "/home" },
-  { name: "Event", path: "/event" },
-  { name: "Contact Us", path: "/contactus" },
-  { name: "Payment History", path: "/paymenthistory" },
-];
-
+const allImages = [image1, image2];
 const HeaderComponent = () => {
+  const openProfile = useSelector((state) => state.login.openProfile);
   const userdata = useSelector((state) => state.login.userdata);
-  const openLogoutBtn = useSelector((state) => state.login.openLogout);
-  const openSidebarBtn = useSelector((state) => state.login.openSidebar);
   const dispatch = useDispatch();
+  const [count, setCount] = React.useState(0);
+  const [background, setBackground] = React.useState();
+  const [color, setColor] = React.useState();
+  const [openSidebar, setOpenSidebar] = React.useState(false);
+  const navigate = useNavigate();
 
-  const [headerValues, setHeaderValues] = React.useState(tabs);
-
-  React.useEffect(() => {
-    if (userdata?.user) {
-      setHeaderValues(tabs2);
+  const backgroundOnScroll = () => {
+    if (window.scrollY > 10) {
+      setBackground("#fffaf6dc");
+      setColor("black");
     } else {
-      setHeaderValues(tabs);
+      setBackground("transparent");
+      setColor("white");
     }
-  }, [userdata]);
-
-  const handleLogoutClick = () => {
-    dispatch(setOpenLogout({ openLogout: !openLogoutBtn }));
   };
 
-  const handleSidebarClick = () => {
-    dispatch(setOpenSidebar({ openSidebar: !openSidebarBtn }));
+  React.useEffect(() => {
+    window.addEventListener("scroll", backgroundOnScroll);
+  }, [background]);
+
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      setCount(count + 1);
+    }, 3000);
+    if (count > allImages.length - 1) {
+      setCount(0);
+    }
+    return () => clearInterval(interval);
+  }, [count]);
+
+  const handleLogoutClick = () => {
+    localStorage.removeItem("token");
+    dispatch(setUserData({ userdata: null }));
+    navigate("/home");
+  };
+
+  const sidebarHandle = () => {
+    setOpenSidebar(!openSidebar);
+  };
+
+  const handleProfileClick = () => {
+    dispatch(setOpenProfile({ openProfile: true }));
   };
 
   return (
     <>
-      <div className=" w-full sticky z-50 top-0 bg-gray-300 h-[60px] flex ">
-        {/* left side  */}
-        <div className=" h-full w-20 flex items-center justify-center md:flex md:items-center md:justify-center md:min-w-[370px] ">
-          <div>
+      <header
+        className={`${styless["container-header"]} bg-cover bg-center`}
+        style={{
+          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(${allImages[count]})`,
+          transition: "3s ease",
+        }}
+      >
+        <nav style={{ background: background }}>
+          <NavLink to="/">
             <img
-              className=" h-10 w-10 md:-ml-3 md:h-10 md:w-10 rounded-full mr-4"
+              className={styless["logo-img"]}
               src={logo}
-              alt="Logo"
+              alt="ms wedding logo"
             />
-          </div>
-          <div className=" md:h-full md:flex md:items-center">
-            <NavLink to="/" className=" text-xl font-semibold hidden md:block ">
-              Bada Event Management wale
-            </NavLink>
-          </div>
-        </div>
-        {/* left side ends here */}
+          </NavLink>
+          <NavLink
+            className={styless["home"]}
+            to="/home"
+            style={{
+              color: color,
+              fontWeight: 600,
+            }}
+          >
+            Home
+          </NavLink>
+          <NavLink
+            className={styless["honeymoons"]}
+            to="/honeymoons"
+            style={{ color: color, fontWeight: 600 }}
+          >
+            Honeymoons
+          </NavLink>
+          <NavLink
+            className={styless["services"]}
+            to="/services"
+            style={{ color: color, fontWeight: 600 }}
+          >
+            Services
+          </NavLink>
+          <NavLink
+            className={styless["gallery"]}
+            to="/gallery"
+            style={{ color: color, fontWeight: 600 }}
+          >
+            Gallery
+          </NavLink>
+          <NavLink
+            className={styless["offers"]}
+            to="/offers"
+            style={{ color: color, fontWeight: 600 }}
+          >
+            Offers
+          </NavLink>
 
-        {/* middle part starts here */}
-        <div className=" h-full hidden  md:w-[800px] pl-2 pr-2 md:flex md:justify-center md:items-center">
-          <div className="w-[500px]">
-            <div className="flex md:place-content-between">
-              {headerValues.map((tab) => (
-                <NavLink
-                  to={tab.path}
-                  key={tab.name}
-                  className={({ isActive, isPending }) =>
-                    isPending
-                      ? "pending"
-                      : isActive
-                      ? styless["isActive"]
-                      : styless["default"]
-                  }
-                >
-                  {tab.name}
-                </NavLink>
-              ))}
-            </div>
+          <label onClick={() => sidebarHandle()}>
+            <i
+              className="fa fa-bars"
+              style={{ color: color, fontSize: "30px" }}
+            ></i>
+          </label>
+          <div
+            className={styless["sidebar"]}
+            style={{ left: openSidebar ? "0%" : "100%", transition: "1s ease" }}
+          >
+            {userdata?.user === "user" || userdata?.user === "admin" ? (
+              <ul>
+                <li>
+                  <NavLink
+                    style={{
+                      width: "100%",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                    to="/"
+                  >
+                    Home
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    style={{
+                      width: "100%",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                    to="/honeymoons"
+                  >
+                    Honeymoons
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    style={{
+                      width: "100%",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                    to="/services"
+                  >
+                    Services
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    style={{
+                      width: "100%",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                    to="/gallery"
+                  >
+                    Gallery
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    style={{
+                      width: "100%",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                    to="/offers"
+                  >
+                    Offers
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    style={{
+                      width: "100%",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                    to="/"
+                    onClick={() => handleLogoutClick()}
+                  >
+                    Logout
+                  </NavLink>
+                </li>
+              </ul>
+            ) : (
+              <ul>
+                <li>
+                  <NavLink
+                    style={{
+                      width: "100%",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                    to="/"
+                  >
+                    Home
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    style={{
+                      width: "100%",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                    to="/honeymoons"
+                  >
+                    Honeymoons
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    style={{
+                      width: "100%",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                    to="/Servies"
+                  >
+                    Services
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    style={{
+                      width: "100%",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                    to="/gallery"
+                  >
+                    Gallery
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    style={{
+                      width: "100%",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                    to="/offers"
+                  >
+                    Offers
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    style={{
+                      width: "100%",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                    to="/signin"
+                  >
+                    Sign In
+                  </NavLink>
+                </li>
+              </ul>
+            )}
           </div>
-        </div>
-        {/* middle part end here */}
 
-        {/* right side starts here */}
-        <div className="flex ">
-          {userdata?.user === "user" || userdata?.user === "admin" ? (
-            <div className=" absolute h-full w-[60px] flex items-center justify-center right-16 md:right-5 ">
-              <button onClick={() => handleLogoutClick()}>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  className="w-10 h-10"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M18.685 19.097A9.723 9.723 0 0 0 21.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 0 0 3.065 7.097A9.716 9.716 0 0 0 12 21.75a9.716 9.716 0 0 0 6.685-2.653Zm-12.54-1.285A7.486 7.486 0 0 1 12 15a7.486 7.486 0 0 1 5.855 2.812A8.224 8.224 0 0 1 12 20.25a8.224 8.224 0 0 1-5.855-2.438ZM15.75 9a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-                <div className={` ${openLogoutBtn ? "block" : "hidden"} `}>
-                  {/** up arrow*/}
+          <div className="flex ">
+            {userdata?.user === "user" || userdata?.user === "admin" ? (
+              <>
+                <div className=" absolute h-full w-[60px] flex items-center justify-center right-16 md:right-5 z-10 ">
+                  <button
+                    className="absolute right-6 md:right-36"
+                    onClick={() => handleProfileClick()}
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      className="w-10 h-10 md:w-16 md:h-16 text-white"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M18.685 19.097A9.723 9.723 0 0 0 21.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 0 0 3.065 7.097A9.716 9.716 0 0 0 12 21.75a9.716 9.716 0 0 0 6.685-2.653Zm-12.54-1.285A7.486 7.486 0 0 1 12 15a7.486 7.486 0 0 1 5.855 2.812A8.224 8.224 0 0 1 12 20.25a8.224 8.224 0 0 1-5.855-2.438ZM15.75 9a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </button>
                 </div>
-              </button>
-            </div>
-          ) : (
-            <div className=" hidden md:flex md:h-full md:w-32 md:justify-center md:items-center md:ml-48">
-              {" "}
-              <NavLink
-                to="/signin"
-                className=" md:text-xl md:font-semibold md:text-blue-600 md:border-2 md:border-blue-600 md:pt-1 md:pb-2 md:pl-4 md:pr-4 md:rounded-md md:hover:text-blue-500 md:hover:border-blue-500"
-              >
-                SignIn
-              </NavLink>
-            </div>
-          )}
-          <div className=" absolute h-full w-[60px] flex items-center justify-center right-0 md:hidden">
-            <button
-              className=" text-5xl pb-2"
-              onClick={() => handleSidebarClick()}
-            >
-              &#8801;
-            </button>
+              </>
+            ) : (
+              <div className=" hidden md:flex md:h-full md:w-32 md:justify-center md:items-center md:ml-48">
+                {" "}
+                <NavLink
+                  to="/signin"
+                  className={styless["sign-in-button"]}
+                  style={{
+                    color: color,
+                    fontWeight: 600,
+                    border: `1px solid ${color}`,
+                  }}
+                >
+                  SignIn
+                </NavLink>
+              </div>
+            )}
           </div>
-        </div>
-        {/* right side starts here */}
-      </div>
+        </nav>
+        {openProfile ? <LogoutComponent /> : ""}
+      </header>
     </>
   );
 };

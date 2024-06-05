@@ -1,29 +1,41 @@
+import styless from "./FooterComponent.module.scss";
+import logo from "../../Images/pngtree-shaadi-mubarak-hindi-calligraphy-png-image_256436.png";
 const FooterComponent = () => {
   return (
-    <footer className=" w-full h-auto bg-gray-300 md:h-48 rounded-md mt-5 md:place-content-stretch  ">
-      <div className=" w-full h-72 mt-2 md:h-40">
-        <h3 className="text-xl font-semibold flex justify-center pt-2 underline">
-          Contact Us:
-        </h3>
-        <div className=" w-full h-64 md:flex p-5 md:h-36">
-          <div className=" w-full h-20 pl-3 pt-3">
-            <h5 className="font-semibold">Address:</h5>
-            <p className="font-medium text-sm">
-              Plot.No 12, Shaitan gali, Khatra mahal, kabristan ke piche,
-              <br />
-              Nagpur - 440008, Maharashtra
-            </p>
-          </div>
-          <div className=" w-full h-20 pl-3 pt-3">
-            <h5 className="font-semibold">Contact Number:</h5>
-            <p className="font-medium text-sm">1234567890</p>
-          </div>
-          <div className=" w-full h-16 pl-3 ">
-            <h5 className="font-semibold">Email Address:</h5>
-            <p className="font-medium text-sm">Sample@gmail.com</p>
-          </div>
+    <footer className={styless["container7"]}>
+      {/* container 7 footer  */}
+      <div className={styless["container7-main-div"]}>
+        <div className={styless["container7-main-div-sub-div-1"]}>
+          <img src={logo} alt="ms wedding logo" />
+        </div>
+        <div className={styless["container7-main-div-sub-div-2"]}>
+          <span>CONTACT</span>
+          <ul>
+            <li>+91 9999999999</li>
+            <li>+91 1111111111</li>
+            <li>exampleemail1@gmail.com</li>
+            <li>exampleemail2@gmail.com</li>
+          </ul>
+        </div>
+        <div className={styless["container7-main-div-sub-div-3"]}>
+          <span>DESTINATIONS</span>
+          <ul>
+            <li>Wedding on Beach</li>
+            <li>Wedding in Hills</li>
+            <li>Vows on Destination</li>
+            <li>Dream Wedding in your beloved city</li>
+          </ul>
+        </div>
+        <div className={styless["container7-main-div-sub-div-4"]}>
+          <span>MORE</span>
+          <ul>
+            <li>Contact</li>
+            <li>Terms and Conditions</li>
+            <li>Privacy and Policy</li>
+          </ul>
         </div>
       </div>
+      {/* container 7 footer end */}
     </footer>
   );
 };

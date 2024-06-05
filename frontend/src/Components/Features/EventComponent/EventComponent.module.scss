@@ -1,0 +1,16 @@
+.img-container {
+  display: flex;
+  flex-wrap: wrap;
+  width: fit-content;
+}
+
+.img-container img {
+  width: 23%;
+  margin: 45px;
+}
+
+.videos {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 4fr));
+}
