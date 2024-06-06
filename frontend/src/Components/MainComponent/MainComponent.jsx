@@ -9,11 +9,17 @@ const AuthComponent = lazy(() => import("../AuthComponent/AuthComponent"));
 const SignUpComponent = lazy(() =>
   import("../AuthComponent/SignUpComponent/SignUpComponent")
 );
-const EventComponent = lazy(() =>
-  import("../Features/EventComponent/EventComponent")
+const GalleryComponent = lazy(() =>
+  import("../Features/GalleryComponent/GalleryComponent")
 );
-const ContactComponent = lazy(() =>
-  import("../Features/ContactComponent/ContactComponent")
+const HoneymoonsComponent = lazy(() =>
+  import("../Features/HoneymoonsComponent/HoneymoonsComponent")
+);
+const ServicesComponent = lazy(() =>
+  import("../Features/ServicesComponent/ServicesComponent")
+);
+const OffersComponent = lazy(() =>
+  import("../Features/OffersComponent/OffersComponent")
 );
 const SuccessComponent = lazy(() =>
   import("../Payment/SuccessComponent/SuccessComponent")
@@ -35,8 +41,10 @@ const MainComponent = () => {
           <Route path="/home" element={<HomeComponent />} />
           <Route path="/signin" element={<AuthComponent />} />
           <Route path="/signup" element={<SignUpComponent />} />
-          <Route path="/event" element={<EventComponent />} />
-          <Route path="/contactus" element={<ContactComponent />} />
+          <Route path="/gallery" element={<GalleryComponent />} />
+          <Route path="/honeymoons" element={<HoneymoonsComponent />} />
+          <Route path="/services" element={<ServicesComponent />} />
+          <Route path="/offers" element={<OffersComponent />} />
           <Route path="/paymenthistory" element={<PaymentHistoryComponent />} />
           <Route path="/success" element={<SuccessComponent />} />
           <Route path="/cancel" element={<CancelComponent />} />

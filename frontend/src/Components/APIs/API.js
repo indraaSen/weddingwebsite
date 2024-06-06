@@ -1,7 +1,7 @@
 import { setUserData } from "../MainStore/Slice/LoginReducer/LoginReducer";
 
-export const appId = "YOUR_RAZORPAY_ID";
-export const secret = "YOUR_RAZORPAY_SECRET";
+export const appId = "RAZORPAY_KEY_ID";
+export const secret = "RAZORPAY_SECRET_KEY";
 
 //to add new users
 export const signupUser = async (
@@ -132,16 +132,18 @@ export const makePayment = async (
           currency: data?.currency,
           receipt: data?.receipt,
           customer: {
-            name: userData?.name,
-            email: userData?.email,
-            contact: userData?.contact,
+            name: userData.userdata?.name,
+            email: userData.userdata?.email,
+            contact: userData.userdata?.contact,
           },
         }),
         headers: {
           "Content-Type": "application/json",
         },
       });
+      console.log("response", response);
       const order = await response.json();
+      console.log("order", order);
       setIsLoading1(false);
       setIsLoading2(false);
       setIsLoading3(false);

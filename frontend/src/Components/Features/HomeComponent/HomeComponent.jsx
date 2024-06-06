@@ -14,6 +14,10 @@ import PopupComponent from "../../Module/PopupComponent/PopupComponent";
 import useRazorpay from "react-razorpay";
 import FooterComponent from "../FooterComponent/FooterComponent";
 import styless from "./HomeComponent.module.scss";
+import image1 from "../../Images/bodyBg.jpg";
+import image2 from "../../Images/weddingPhoto2.jpg";
+
+const allImages = [image1, image2];
 
 const comments = [
   {
@@ -87,7 +91,7 @@ const HomeComponent = () => {
 
   return (
     <>
-      <HeaderComponent />
+      <HeaderComponent allImages={allImages} />
       {/* container 2 start  */}
       <div className={styless["container2"]}>
         <span className={styless["container2-text1"]}>
@@ -227,7 +231,7 @@ const HomeComponent = () => {
                   className={`h-10 w-24 border-2 bg-yellow-900 rounded-md text-white hover:bg-yellow-700 hover:text-black font-medium`}
                 >
                   {isLoading1 ? (
-                    <i class="fa fa-spinner fa-spin"></i>
+                    <i className="fa fa-spinner fa-spin"></i>
                   ) : (
                     "Buy Now"
                   )}
@@ -271,7 +275,7 @@ const HomeComponent = () => {
                   className="h-10 w-24 border-2 bg-slate-500 rounded-md text-white hover:bg-slate-300 hover:text-black font-medium"
                 >
                   {isLoading2 ? (
-                    <i class="fa fa-spinner fa-spin"></i>
+                    <i className="fa fa-spinner fa-spin"></i>
                   ) : (
                     "Buy Now"
                   )}
@@ -314,7 +318,7 @@ const HomeComponent = () => {
                   className="h-10 w-24 border-2 bg-yellow-500 rounded-md text-white hover:bg-yellow-300 hover:text-black font-medium "
                 >
                   {isLoading3 ? (
-                    <i class="fa fa-spinner fa-spin"></i>
+                    <i className="fa fa-spinner fa-spin"></i>
                   ) : (
                     "Buy Now"
                   )}
@@ -338,7 +342,7 @@ const HomeComponent = () => {
                 Platinum Plan
               </h1>
               <p className="w-full h-16 font-medium flex items-center justify-center text-center ">
-                Help in Mehndi, Sangeet, Haldi, Shadi, Rasoyi.
+                Help in Mehndi, Sangeet, Haldi, Shadi, Reception.
               </p>
               <p className="w-full h-12 flex items-center justify-center font-semibold">
                 ₹ 1500/-
@@ -357,7 +361,7 @@ const HomeComponent = () => {
                   className="h-10 w-24 border-2 bg-gray-400 rounded-md text-white hover:bg-gray-200 hover:text-black font-medium"
                 >
                   {isLoading4 ? (
-                    <i class="fa fa-spinner fa-spin"></i>
+                    <i className="fa fa-spinner fa-spin"></i>
                   ) : (
                     "Buy Now"
                   )}

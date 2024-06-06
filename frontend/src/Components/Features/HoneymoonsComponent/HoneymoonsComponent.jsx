@@ -5,7 +5,7 @@ import HeaderComponent from "../HeaderComponent/HeaderComponent";
 import email from "../../Images/email.png";
 import number from "../../Images/number.png";
 
-const ContactComponent = () => {
+const HoneymoonsComponent = () => {
   const dispatch = useDispatch();
 
   React.useEffect(() => {
@@ -56,4 +56,4 @@ const ContactComponent = () => {
   );
 };
 
-export default ContactComponent;
+export default HoneymoonsComponent;

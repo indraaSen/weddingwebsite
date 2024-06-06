@@ -7,9 +7,9 @@ import video1 from "../../Videos/salmanKhanVid.mp4";
 import video2 from "../../Videos/sardarKhanVid.mp4";
 import video3 from "../../Videos/randomGirlVid.mp4";
 import video4 from "../../Videos/cillianMurphyVid.mp4";
-import styless from "./EventComponent.module.scss";
+import styless from "./GalleryComponent.module.scss";
 
-const EventComponent = () => {
+const GalleryComponent = () => {
   const dispatch = useDispatch();
 
   React.useEffect(() => {
@@ -88,4 +88,4 @@ const EventComponent = () => {
   );
 };
 
-export default EventComponent;
+export default GalleryComponent;

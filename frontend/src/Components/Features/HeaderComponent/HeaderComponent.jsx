@@ -2,8 +2,7 @@ import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import logo from "../../Images/pngtree-shaadi-mubarak-hindi-calligraphy-png-image_256436.png";
-import image1 from "../../Images/bodyBg.jpg";
-import image2 from "../../Images/weddingPhoto2.jpg";
+
 import {
   setOpenProfile,
   setUserData,
@@ -11,8 +10,7 @@ import {
 import styless from "./HeaderComponent.module.scss";
 import LogoutComponent from "../LogoutComponent/LogoutComponent";
 
-const allImages = [image1, image2];
-const HeaderComponent = () => {
+const HeaderComponent = ({ allImages }) => {
   const openProfile = useSelector((state) => state.login.openProfile);
   const userdata = useSelector((state) => state.login.userdata);
   const dispatch = useDispatch();
@@ -57,7 +55,7 @@ const HeaderComponent = () => {
   };
 
   const handleProfileClick = () => {
-    dispatch(setOpenProfile({ openProfile: true }));
+    dispatch(setOpenProfile({ openProfile: !openProfile }));
   };
 
   return (
@@ -295,16 +293,16 @@ const HeaderComponent = () => {
           <div className="flex ">
             {userdata?.user === "user" || userdata?.user === "admin" ? (
               <>
-                <div className=" absolute h-full w-[60px] flex items-center justify-center right-16 md:right-5 z-10 ">
+                <div className=" absolute h-full w-[60px] flex items-center justify-center right-16 md:right-5 z-10">
                   <button
-                    className="absolute right-6 md:right-36"
+                    className="absolute bottom-16 md:bottom-28 right-6 md:right-36"
                     onClick={() => handleProfileClick()}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
                       fill="currentColor"
-                      className="w-10 h-10 md:w-16 md:h-16 text-white"
+                      className={`w-10 h-10 md:w-16 md:h-16 text-${color}`}
                     >
                       <path
                         fillRule="evenodd"

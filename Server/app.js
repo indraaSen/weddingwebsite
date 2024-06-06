@@ -163,7 +163,6 @@ app.post("/order/create", async (req, res) => {
     };
 
     const order = await razorpay.orders.create(options);
-
     const query =
       "INSERT INTO paymenthistory (name, email, contact, orderid, paymentid, amount, date) VALUES ($1, $2, $3, $4, $5, $6, $7)";
     const values = [
@@ -177,10 +176,10 @@ app.post("/order/create", async (req, res) => {
     ];
     await pool.query(query, values);
 
-    if (!order) {
-      return res.status(500).send("Error creating order");
-    } else {
+    if (order) {
       res.status(200).json({ success: true, order });
+    } else {
+      return res.status(500).send("Error creating order");
     }
   } catch (e) {
     res.status(500).json({ msg: "Server not found!", status: 500 });
