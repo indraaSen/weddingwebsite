@@ -206,7 +206,7 @@
     justify-content: center;
     align-items: center;
     min-width: 481px;
-    min-height: 60vh;
+    min-height: 90vh;
     position: relative;
   }
   .container7-main-div {
@@ -230,7 +230,7 @@
     width: 250px;
   }
   .container7-main-div-sub-div-2 {
-    top: 30%;
+    top: 27%;
     left: 0;
     display: flex;
     flex-direction: column;
@@ -463,81 +463,3 @@
     width: 350px;
   }
 }
-
-// .header-image img,
-// .header-image p,
-// .header-image span {
-//   animation: fade-out linear;
-//   animation-timeline: view();
-//   animation-range: exit -200px;
-// }
-
-// @keyframes fade-out {
-//   to {
-//     opacity: 0;
-//   }
-// }
-
-// .scroll-offercard4 {
-//   animation: slide-in4 1.5s linear;
-//   animation-timeline: view(600px 10px);
-// }
-
-// @keyframes slide-in4 {
-//   from {
-//     opacity: 0;
-//     transform: translateX(-600%);
-//   }
-//   to {
-//     opacity: 1;
-//     transform: translateX(0);
-//   }
-// }
-
-// .scroll-offercard3 {
-//   animation: slide-in3 1.5s linear;
-//   animation-timeline: view(600px 10px);
-// }
-
-// @keyframes slide-in3 {
-//   from {
-//     opacity: 0;
-//     transform: translateX(-410%);
-//   }
-//   to {
-//     opacity: 1;
-//     transform: translateX(0);
-//   }
-// }
-
-// .scroll-offercard2 {
-//   animation: slide-in2 1.5s linear;
-//   animation-timeline: view(600px 10px);
-// }
-
-// @keyframes slide-in2 {
-//   from {
-//     opacity: 0;
-//     transform: translateX(-200%);
-//   }
-//   to {
-//     opacity: 1;
-//     transform: translateX(0);
-//   }
-// }
-
-// .scroll-images div {
-//   animation: fade-in linear;
-//   animation-timeline: view(500px 10px);
-// }
-
-// @keyframes fade-in {
-//   from {
-//     scale: 0.8;
-//     opacity: 0;
-//   }
-//   to {
-//     scale: 1;
-//     opacity: 1;
-//   }
-// }

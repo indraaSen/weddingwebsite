@@ -1,16 +1,125 @@
-.img-container {
+.container1 {
+  position: relative;
+  background-color: #fffaf6;
   display: flex;
-  flex-wrap: wrap;
-  width: fit-content;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
-
-.img-container img {
-  width: 23%;
-  margin: 45px;
+.container1-div {
+  min-height: 20vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
 }
-
-.videos {
+.container1 h1 {
+  font-size: 60px;
+  font-family: serif;
+  background: linear-gradient(to right, rgb(156, 18, 18), rgb(48, 18, 156));
+  -webkit-background-clip: text;
+  color: transparent;
+}
+.container1-images {
+  min-height: 400px;
+  min-width: 800px;
+  padding: 50px;
+  gap: 30px;
   display: grid;
-  gap: 16px;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 4fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 3fr));
+  margin-top: 30px;
+}
+.container1-images img {
+  height: 300px;
+  width: 350px;
+  object-fit: cover;
+}
+
+@media (max-width: 480px) {
+  .container1-div {
+    min-height: 10vh;
+    margin-top: 20px;
+  }
+  .container1 h1 {
+    font-size: 25px;
+  }
+  .container1-images {
+    min-height: 400px;
+    min-width: 300px;
+    padding: 30px;
+    gap: 20px;
+    display: flex;
+    flex-direction: column;
+    margin-top: 0;
+  }
+  .container1-images img {
+    height: 200px;
+    width: 250px;
+  }
+}
+
+@media (min-width: 481px) and (max-width: 767px) {
+  .container1-div {
+    min-height: 10vh;
+    margin-top: 20px;
+  }
+  .container1 h1 {
+    font-size: 40px;
+  }
+  .container1-images {
+    min-height: 400px;
+    min-width: 600px;
+    padding: 30px;
+    gap: 20px;
+    grid-template-columns: repeat(2, 1fr);
+    margin-top: 10px;
+  }
+  .container1-images img {
+    height: 250px;
+    width: 300px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .container1-div {
+    min-height: 15vh;
+  }
+  .container1 h1 {
+    font-size: 50px;
+  }
+  .container1-images {
+    min-height: 400px;
+    min-width: 700px;
+    padding: 35px;
+    gap: 25px;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 3fr));
+    margin-top: 20px;
+  }
+  .container1-images img {
+    height: 250px;
+    width: 300px;
+  }
+}
+
+@media (min-width: 1025px) and (max-width: 1280px) {
+  .container1-div {
+    min-height: 20vh;
+  }
+  .container1 h1 {
+    font-size: 50px;
+  }
+  .container1-images {
+    min-height: 400px;
+    min-width: 800px;
+    padding: 40px;
+    gap: 30px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 3fr));
+    margin-top: 10px;
+  }
+  .container1-images img {
+    height: 250px;
+    width: 300px;
+  }
 }

@@ -43,6 +43,24 @@
 
 @media (max-width: 480px) {
   .main-div {
-    top: 12%;
+    top: 11%;
+  }
+}
+
+@media (min-width: 481px) and (max-width: 767px) {
+  .main-div {
+    top: 11%;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .main-div {
+    top: 14%;
+  }
+}
+
+@media (min-width: 1281px) {
+  .main-div {
+    top: 22%;
   }
 }

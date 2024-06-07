@@ -18,10 +18,15 @@ const HeaderComponent = ({ allImages }) => {
   const [background, setBackground] = React.useState();
   const [color, setColor] = React.useState();
   const [openSidebar, setOpenSidebar] = React.useState(false);
+  const [isActiveHome, setIsActiveHome] = React.useState("");
+  const [isActiveHoneymoon, setIsActiveHoneymoon] = React.useState("");
+  const [isActiveServices, setIsActiveServices] = React.useState("");
+  const [isActiveGallery, setIsActiveGallery] = React.useState("");
+  const [isActiveOffer, setIsActiveOffer] = React.useState("");
   const navigate = useNavigate();
 
   const backgroundOnScroll = () => {
-    if (window.scrollY > 10) {
+    if (window.scrollY > 5) {
       setBackground("#fffaf6dc");
       setColor("black");
     } else {
@@ -76,40 +81,59 @@ const HeaderComponent = ({ allImages }) => {
             />
           </NavLink>
           <NavLink
-            className={styless["home"]}
+            className={`${styless["home"]} ${
+              isActiveHome === "home" ? `border-b-2 border-${color}` : ""
+            }`}
             to="/home"
             style={{
               color: color,
               fontWeight: 600,
             }}
+            onClick={() => setIsActiveHome("home")}
           >
             Home
           </NavLink>
           <NavLink
-            className={styless["honeymoons"]}
+            className={`${styless["honeymoons"]} ${
+              isActiveHoneymoon === "honeymoon"
+                ? `border-b-2 border-${color}`
+                : ""
+            }`}
             to="/honeymoons"
             style={{ color: color, fontWeight: 600 }}
+            onClick={() => setIsActiveHoneymoon("honeymoon")}
           >
             Honeymoons
           </NavLink>
           <NavLink
-            className={styless["services"]}
+            className={`${styless["services"]} ${
+              isActiveServices === "services"
+                ? `border-b-2 border-${color}`
+                : ""
+            }`}
             to="/services"
             style={{ color: color, fontWeight: 600 }}
+            onClick={() => setIsActiveServices("services")}
           >
             Services
           </NavLink>
           <NavLink
-            className={styless["gallery"]}
+            className={`${styless["gallery"]} ${
+              isActiveGallery === "gallery" ? `border-b-2 border-${color}` : ""
+            }`}
             to="/gallery"
             style={{ color: color, fontWeight: 600 }}
+            onClick={() => setIsActiveGallery("gallery")}
           >
             Gallery
           </NavLink>
           <NavLink
-            className={styless["offers"]}
+            className={`${styless["offers"]} ${
+              isActiveOffer === "offers" ? `border-b-2 border-${color}` : ""
+            }`}
             to="/offers"
             style={{ color: color, fontWeight: 600 }}
+            onClick={() => setIsActiveOffer("offers")}
           >
             Offers
           </NavLink>
@@ -290,12 +314,12 @@ const HeaderComponent = ({ allImages }) => {
             )}
           </div>
 
-          <div className="flex ">
+          <div className="flex">
             {userdata?.user === "user" || userdata?.user === "admin" ? (
               <>
                 <div className=" absolute h-full w-[60px] flex items-center justify-center right-16 md:right-5 z-10">
                   <button
-                    className="absolute bottom-16 md:bottom-28 right-6 md:right-36"
+                    className={`${styless["profile-icon"]} right-6 md:right-36`}
                     onClick={() => handleProfileClick()}
                   >
                     <svg

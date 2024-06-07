@@ -192,7 +192,7 @@ const HomeComponent = () => {
       {/* container 4 end */}
       {/* container 5  */}
       <div
-        className={`h-auto w-full border-r-4 border-b-4 border-t-0 border-l-0 rounded-r-2xl border-yellow-300 grid justify-center items-center md:flex md:place-content-between md:p-5`}
+        className={`h-auto w-full border-r-4 border-b-4 border-t-0 border-l-0 rounded-r-2xl p-8 border-yellow-300 grid justify-center items-center lg:flex lg:place-content-between lg:p-5`}
       >
         <div
           className={`${styless["scroll-offercard1"]} h-96 w-64 grid items-center justify-center p-5`}

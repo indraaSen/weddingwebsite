@@ -1,5 +1,6 @@
 import styless from "./FooterComponent.module.scss";
 import logo from "../../Images/pngtree-shaadi-mubarak-hindi-calligraphy-png-image_256436.png";
+
 const FooterComponent = () => {
   return (
     <footer className={styless["container7"]}>

@@ -1,20 +1,6 @@
-.default {
-  font-size: 18px;
-  font-weight: 600;
-}
-.default:hover {
-  color: gray;
-}
-
-.isActive {
-  font-size: 18px;
-  font-weight: 600;
-  color: gray;
-}
 .body {
   width: 100vw;
 }
-
 .container-header {
   height: 744px;
   width: 100%;
@@ -208,6 +194,12 @@
   background-color: white;
 }
 
+.profile-icon {
+  position: absolute;
+  bottom: 115px;
+  right: 100%;
+}
+
 /* Media Query for Mobile Devices */
 @media (max-width: 480px) {
   .home,
@@ -228,6 +220,10 @@
   }
   .container-header nav label {
     visibility: visible;
+  }
+  .profile-icon {
+    bottom: 75%;
+    right: 20%;
   }
 }
 
@@ -251,6 +247,10 @@
   }
   .container-header nav label {
     visibility: visible;
+  }
+  .profile-icon {
+    bottom: 75%;
+    right: 100%;
   }
 }
 
@@ -296,6 +296,10 @@
   }
   .content {
     display: none;
+  }
+  .profile-icon {
+    bottom: 65px;
+    right: 100%;
   }
 }
 

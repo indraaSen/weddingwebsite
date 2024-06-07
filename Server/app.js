@@ -163,20 +163,20 @@ app.post("/order/create", async (req, res) => {
     };
 
     const order = await razorpay.orders.create(options);
-    const query =
-      "INSERT INTO paymenthistory (name, email, contact, orderid, paymentid, amount, date) VALUES ($1, $2, $3, $4, $5, $6, $7)";
-    const values = [
-      customer.name,
-      customer.email,
-      customer.contact,
-      order.id,
-      null,
-      amount,
-      new Date().toISOString().split("T")[0],
-    ];
-    await pool.query(query, values);
 
     if (order) {
+      const query =
+        "INSERT INTO paymenthistory (name, email, contact, orderid, paymentid, amount, date) VALUES ($1, $2, $3, $4, $5, $6, $7)";
+      const values = [
+        customer.name,
+        customer.email,
+        customer.contact,
+        order.id,
+        null,
+        amount,
+        new Date().toISOString().split("T")[0],
+      ];
+      await pool.query(query, values);
       res.status(200).json({ success: true, order });
     } else {
       return res.status(500).send("Error creating order");
