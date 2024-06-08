@@ -1,6 +1,7 @@
 .body {
   width: 100vw;
 }
+
 .container-header {
   height: 744px;
   width: 100%;
@@ -123,22 +124,6 @@
 
 #toggle:checked ~ .content ul {
   visibility: visible;
-}
-
-.home:hover {
-  border-bottom: 1px solid white;
-}
-.honeymoons:hover {
-  border-bottom: 1px solid white;
-}
-.services:hover {
-  border-bottom: 1px solid white;
-}
-.gallery:hover {
-  border-bottom: 1px solid white;
-}
-.offers:hover {
-  border-bottom: 1px solid white;
 }
 
 .sign-in-button {

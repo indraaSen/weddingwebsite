@@ -70,6 +70,14 @@
   gap: 20px;
   padding-top: 30px;
   height: 1000px;
+  background-image: repeating-linear-gradient(
+    195deg,
+    #ffffff 0px,
+    #ffffff 500px,
+    #fffaf6 500px,
+    #fffaf6 1000px
+  );
+  background-size: 100% 100%;
 }
 
 .container3-col-1 {

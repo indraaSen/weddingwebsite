@@ -31,7 +31,9 @@ const PaymentHistoryComponent = lazy(() =>
   import("../Features/PaymentHistoryComponent/PaymentHistoryComponent")
 );
 const ErrorPage = lazy(() => import("../Features/ErrorPage/ErrorPage"));
-
+const ForgotPassword = lazy(() =>
+  import("../Features/ForgotPassword/ForgotPassword")
+);
 const MainComponent = () => {
   return (
     <BrowserRouter>
@@ -48,6 +50,7 @@ const MainComponent = () => {
           <Route path="/paymenthistory" element={<PaymentHistoryComponent />} />
           <Route path="/success" element={<SuccessComponent />} />
           <Route path="/cancel" element={<CancelComponent />} />
+          <Route path="/forgotpassword" element={<ForgotPassword />} />
           <Route path="/*" element={<ErrorPage />} />
         </Routes>
       </Suspense>

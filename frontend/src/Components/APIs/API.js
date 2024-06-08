@@ -79,7 +79,7 @@ export const loginUser = async (
       alert("Invalid credentials!");
     }
   } catch (error) {
-    alert("Internal server error");
+    alert("Internal server error!");
   }
 };
 
@@ -104,6 +104,33 @@ export const retriveUser = (dispatch) => {
     }
   } catch (error) {
     console.log(error);
+  }
+};
+
+export const forgotPassword = async (
+  email,
+  confirmPassword,
+  navigate,
+  setMessage,
+  setOpen
+) => {
+  try {
+    const response = await fetch("http://localhost:8000/forgotpassword", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, confirmPassword }),
+    });
+
+    const data = await response.json();
+    if (data.status === 200) {
+      setMessage("Password changed! Successfully.");
+      setOpen(true);
+      navigate("/signin");
+    }
+  } catch (error) {
+    alert("Internal server error!");
   }
 };
 
@@ -132,18 +159,16 @@ export const makePayment = async (
           currency: data?.currency,
           receipt: data?.receipt,
           customer: {
-            name: userData.userdata?.name,
-            email: userData.userdata?.email,
-            contact: userData.userdata?.contact,
+            name: userData?.name,
+            email: userData?.email,
+            contact: userData?.contact,
           },
         }),
         headers: {
           "Content-Type": "application/json",
         },
       });
-      console.log("response", response);
       const order = await response.json();
-      console.log("order", order);
       setIsLoading1(false);
       setIsLoading2(false);
       setIsLoading3(false);

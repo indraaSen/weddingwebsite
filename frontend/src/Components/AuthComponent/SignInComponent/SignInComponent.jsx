@@ -72,11 +72,17 @@ const SignInComponent = () => {
             >
               Sign Up
             </button>
+            <NavLink
+              className={"ml-12 underline text-blue-700"}
+              to="/forgotpassword"
+            >
+              Forgot Password?
+            </NavLink>
           </div>
           <div className="relative h-10 w-full">
             <NavLink
               to="/"
-              className=" text-xs mt-5 text-blue-500 absolute right-0 md:mt-0"
+              className=" text-xs mt-5 text-blue-500 absolute right-0 md:mt-2"
             >
               Go back to home Page{">>>>"}
             </NavLink>

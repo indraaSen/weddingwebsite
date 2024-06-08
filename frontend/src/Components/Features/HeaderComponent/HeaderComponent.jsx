@@ -18,11 +18,7 @@ const HeaderComponent = ({ allImages }) => {
   const [background, setBackground] = React.useState();
   const [color, setColor] = React.useState();
   const [openSidebar, setOpenSidebar] = React.useState(false);
-  const [isActiveHome, setIsActiveHome] = React.useState("");
-  const [isActiveHoneymoon, setIsActiveHoneymoon] = React.useState("");
-  const [isActiveServices, setIsActiveServices] = React.useState("");
-  const [isActiveGallery, setIsActiveGallery] = React.useState("");
-  const [isActiveOffer, setIsActiveOffer] = React.useState("");
+  const [active, setActive] = React.useState("");
   const navigate = useNavigate();
 
   const backgroundOnScroll = () => {
@@ -48,6 +44,30 @@ const HeaderComponent = ({ allImages }) => {
     }
     return () => clearInterval(interval);
   }, [count]);
+
+  React.useEffect(() => {
+    switch (window.location.pathname.split("/").pop()) {
+      case "home":
+        setActive("home");
+        break;
+      case "honeymoons":
+        setActive("honeymoons");
+        break;
+      case "services":
+        setActive("services");
+        break;
+      case "gallery":
+        setActive("gallery");
+        break;
+      case "offers":
+        setActive("offers");
+        break;
+
+      default:
+        setActive("");
+        break;
+    }
+  }, [active]);
 
   const handleLogoutClick = () => {
     localStorage.removeItem("token");
@@ -81,59 +101,65 @@ const HeaderComponent = ({ allImages }) => {
             />
           </NavLink>
           <NavLink
-            className={`${styless["home"]} ${
-              isActiveHome === "home" ? `border-b-2 border-${color}` : ""
+            className={`${
+              styless["home"]
+            } hover:border-b-[1px] border-${color} ${
+              active === "home" ? `border-b-[1px] border-${color}` : ""
             }`}
             to="/home"
             style={{
               color: color,
               fontWeight: 600,
             }}
-            onClick={() => setIsActiveHome("home")}
+            onClick={() => setActive("home")}
           >
             Home
           </NavLink>
           <NavLink
-            className={`${styless["honeymoons"]} ${
-              isActiveHoneymoon === "honeymoon"
-                ? `border-b-2 border-${color}`
-                : ""
+            className={`${
+              styless["honeymoons"]
+            } hover:border-b-[1px] border-${color} ${
+              active === "honeymoons" ? `border-b-[1px] border-${color}` : ""
             }`}
             to="/honeymoons"
             style={{ color: color, fontWeight: 600 }}
-            onClick={() => setIsActiveHoneymoon("honeymoon")}
+            onClick={() => setActive("honeymoons")}
           >
             Honeymoons
           </NavLink>
           <NavLink
-            className={`${styless["services"]} ${
-              isActiveServices === "services"
-                ? `border-b-2 border-${color}`
-                : ""
+            className={`${
+              styless["services"]
+            } hover:border-b-[1px] border-${color} ${
+              active === "services" ? `border-b-[1px] border-${color}` : ""
             }`}
             to="/services"
             style={{ color: color, fontWeight: 600 }}
-            onClick={() => setIsActiveServices("services")}
+            onClick={() => setActive("services")}
           >
             Services
           </NavLink>
           <NavLink
-            className={`${styless["gallery"]} ${
-              isActiveGallery === "gallery" ? `border-b-2 border-${color}` : ""
+            className={`${
+              styless["gallery"]
+            } hover:border-b-[1px] border-${color} ${
+              active === "gallery" ? `border-b-[1px] border-${color}` : ""
             }`}
             to="/gallery"
             style={{ color: color, fontWeight: 600 }}
-            onClick={() => setIsActiveGallery("gallery")}
+            onClick={() => setActive("gallery")}
           >
             Gallery
           </NavLink>
           <NavLink
-            className={`${styless["offers"]} ${
-              isActiveOffer === "offers" ? `border-b-2 border-${color}` : ""
+            className={`${
+              styless["offers"]
+            } hover:border-b-[1px] border-${color} ${
+              active === "offers" ? `border-b-[1px] border-${color}` : ""
             }`}
             to="/offers"
             style={{ color: color, fontWeight: 600 }}
-            onClick={() => setIsActiveOffer("offers")}
+            onClick={() => setActive("offers")}
           >
             Offers
           </NavLink>

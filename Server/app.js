@@ -152,6 +152,26 @@ app.get("/protected", authenticateToken, (req, res) => {
   res.json({ message: "Protected route accessed successfully" });
 });
 
+app.put("/forgotpassword", async (req, res) => {
+  try {
+    const { email, confirmPassword } = req.body;
+
+    const emailQuery = "SELECT * FROM userdata WHERE email = $1";
+    const user = await pool.query(emailQuery, [email]);
+
+    if (!user.rows[0]) {
+      return res.status(404).json({ error: "User Not Found!" });
+    } else {
+      const hashedPassword = await bcrypt.hash(confirmPassword, 10);
+      const updatePassword = "UPDATE userdata SET password=$1 WHERE email = $2";
+      await pool.query(updatePassword, [hashedPassword, email]);
+      res.json({ success: true, status: 200 });
+    }
+  } catch (error) {
+    res.status(500).json({ error: "Error Creating new password!" });
+  }
+});
+
 //create order api
 app.post("/order/create", async (req, res) => {
   try {
@@ -163,7 +183,6 @@ app.post("/order/create", async (req, res) => {
     };
 
     const order = await razorpay.orders.create(options);
-
     if (order) {
       const query =
         "INSERT INTO paymenthistory (name, email, contact, orderid, paymentid, amount, date) VALUES ($1, $2, $3, $4, $5, $6, $7)";
