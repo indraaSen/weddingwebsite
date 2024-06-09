@@ -152,6 +152,7 @@ app.get("/protected", authenticateToken, (req, res) => {
   res.json({ message: "Protected route accessed successfully" });
 });
 
+//to change password
 app.put("/forgotpassword", async (req, res) => {
   try {
     const { email, confirmPassword } = req.body;

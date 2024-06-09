@@ -107,6 +107,7 @@ export const retriveUser = (dispatch) => {
   }
 };
 
+//to change password
 export const forgotPassword = async (
   email,
   confirmPassword,

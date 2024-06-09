@@ -35,7 +35,7 @@ const cardData = [
       "We will arrange your mehndi ceremony Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui accusamus dolorum sequi rem, at odio minima! Dolore at cum ad laboriosam porro officiis sed, nostrum ratione non harum consectetur corporis? We will arrange your mehndi ceremony Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui accusamus dolorum sequi rem, at odio minima! Dolore at cum ad laboriosam porro officiis sed, nostrum ratione non harum consectetur corporis?",
   },
 ];
-const custom_gradient = "linear-gradient(120deg, #fffaf6 50%, #ffffff 50%)";
+
 const ServicesComponent = () => {
   return (
     <>

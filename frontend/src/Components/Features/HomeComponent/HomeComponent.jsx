@@ -9,7 +9,7 @@ import weddingimg from "../../Images/weddingimg.jpg";
 import brideimg from "../../Images/brideimg.jpg";
 import wedding1 from "../../Images/wedding1.jpg";
 import borderdesign from "../../Images/borderdesign.png";
-import logo from "../../Images/logo.jpg";
+import logo from "../../Images/pngtree-shaadi-mubarak-hindi-calligraphy-png-image_256436.png";
 import PopupComponent from "../../Module/PopupComponent/PopupComponent";
 import useRazorpay from "react-razorpay";
 import FooterComponent from "../FooterComponent/FooterComponent";
@@ -178,12 +178,12 @@ const HomeComponent = () => {
         <img
           className={styless["container4-img-1"]}
           src={borderdesign}
-          alt="border img"
+          alt="borderimg"
         />
         <img
           className={styless["container4-img-2"]}
           src={brideimg}
-          alt="bride img"
+          alt="brideimg"
         />
         <div className={styless["container4-div-1"]}>
           <button className={styless["container4-text-3"]}>Learn More</button>
@@ -383,7 +383,7 @@ const HomeComponent = () => {
         <div className={styless["container6-div-2"]}>
           <span>{comments[count]?.name}</span>
           <p>{comments[count]?.comment}</p>
-          <img src={comments[count]?.image} alt="wedding 1" />
+          <img src={comments[count]?.image} alt="wedding1" />
         </div>
       </div>
       {/* container 6 Feedback end  */}

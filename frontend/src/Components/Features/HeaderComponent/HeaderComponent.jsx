@@ -96,7 +96,7 @@ const HeaderComponent = ({ allImages }) => {
             <img
               className={styless["logo-img"]}
               src={logo}
-              alt="ms wedding logo"
+              alt="shadi-mubarak"
             />
           </NavLink>
           <NavLink

@@ -7,7 +7,7 @@ import haldi from "../../Images/haldiceremony.jpg";
 import wedding from "../../Images/weddingimg.jpg";
 import styless from "./OffersComponent.module.scss";
 import weddingimage1 from "../../Images/weddingPhoto1.jpg";
-import logo from "../../Images/logo.jpg";
+import logo from "../../Images/pngtree-shaadi-mubarak-hindi-calligraphy-png-image_256436.png";
 import { useDispatch, useSelector } from "react-redux";
 import { makePayment, retriveUser } from "../../APIs/API";
 import useRazorpay from "react-razorpay";

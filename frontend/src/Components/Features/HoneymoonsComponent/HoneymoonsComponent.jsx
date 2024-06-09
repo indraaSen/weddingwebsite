@@ -75,7 +75,7 @@ const HoneymoonsComponent = () => {
         {cardData.map((data) => (
           <div className={styless["card"]}>
             <div className={styless["card-image"]}>
-              <img src={data.image} alt="image1" />
+              <img src={data.image} alt="image" />
             </div>
             <div className={styless["card-text"]}>
               <h2>{data.title}</h2>
