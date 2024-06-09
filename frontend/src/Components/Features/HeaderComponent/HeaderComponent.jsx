@@ -292,7 +292,7 @@ const HeaderComponent = ({ allImages }) => {
                       alignItems: "center",
                       justifyContent: "center",
                     }}
-                    to="/Servies"
+                    to="/services"
                   >
                     Services
                   </NavLink>
