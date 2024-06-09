@@ -394,7 +394,9 @@
   }
   .container2-text4 {
     position: absolute;
+    left: 15%;
     top: 53%;
+    width: 250px;
     font-size: 11px;
     line-height: 15px;
     letter-spacing: 0.2px;
@@ -438,10 +440,12 @@
   .container3-col-1-text-3 {
     position: absolute;
     top: 47%;
-    font-size: 15px;
+    left: 0.2%;
+    font-size: 13px;
     line-height: 15px;
     width: 100%;
     text-align: center;
+    letter-spacing: 0.1px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -510,7 +514,7 @@
   }
   .container4-img-1 {
     position: absolute;
-    top: 40%;
+    top: 37%;
     height: 250px;
     width: 300px;
     rotate: 180deg;
@@ -551,9 +555,10 @@
   }
   .container6-div-2 span {
     position: absolute;
-    width: 100%;
+    width: 335px;
+    margin: 20px;
     font-weight: bold;
-    font-size: 25px;
+    font-size: 20px;
     text-align: center;
     font-family: serif;
     letter-spacing: 5px;
@@ -578,6 +583,7 @@
     z-index: 5;
     letter-spacing: 2px;
     border-bottom-left-radius: 0px;
+    padding: 20px;
   }
   .container6-div-2 img {
     position: absolute;
@@ -587,6 +593,8 @@
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
+    padding: 20px;
+    margin-top: 20px;
   }
 
   .container7 {

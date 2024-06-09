@@ -2,7 +2,6 @@ import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import logo from "../../Images/pngtree-shaadi-mubarak-hindi-calligraphy-png-image_256436.png";
-
 import {
   setOpenProfile,
   setUserData,
@@ -43,7 +42,7 @@ const HeaderComponent = ({ allImages }) => {
       setCount(0);
     }
     return () => clearInterval(interval);
-  }, [count]);
+  }, [allImages.length, count]);
 
   React.useEffect(() => {
     switch (window.location.pathname.split("/").pop()) {
@@ -185,6 +184,13 @@ const HeaderComponent = ({ allImages }) => {
                       justifyContent: "center",
                     }}
                     to="/"
+                    className={({ isActive, isPending }) =>
+                      isPending
+                        ? "pending"
+                        : isActive
+                        ? styless["isActive"]
+                        : ""
+                    }
                   >
                     Home
                   </NavLink>
@@ -198,6 +204,13 @@ const HeaderComponent = ({ allImages }) => {
                       justifyContent: "center",
                     }}
                     to="/honeymoons"
+                    className={({ isActive, isPending }) =>
+                      isPending
+                        ? "pending"
+                        : isActive
+                        ? styless["isActive"]
+                        : ""
+                    }
                   >
                     Honeymoons
                   </NavLink>
@@ -211,6 +224,13 @@ const HeaderComponent = ({ allImages }) => {
                       justifyContent: "center",
                     }}
                     to="/services"
+                    className={({ isActive, isPending }) =>
+                      isPending
+                        ? "pending"
+                        : isActive
+                        ? styless["isActive"]
+                        : ""
+                    }
                   >
                     Services
                   </NavLink>
@@ -224,6 +244,13 @@ const HeaderComponent = ({ allImages }) => {
                       justifyContent: "center",
                     }}
                     to="/gallery"
+                    className={({ isActive, isPending }) =>
+                      isPending
+                        ? "pending"
+                        : isActive
+                        ? styless["isActive"]
+                        : ""
+                    }
                   >
                     Gallery
                   </NavLink>
@@ -237,6 +264,13 @@ const HeaderComponent = ({ allImages }) => {
                       justifyContent: "center",
                     }}
                     to="/offers"
+                    className={({ isActive, isPending }) =>
+                      isPending
+                        ? "pending"
+                        : isActive
+                        ? styless["isActive"]
+                        : ""
+                    }
                   >
                     Offers
                   </NavLink>
@@ -251,6 +285,13 @@ const HeaderComponent = ({ allImages }) => {
                     }}
                     to="/"
                     onClick={() => handleLogoutClick()}
+                    className={({ isActive, isPending }) =>
+                      isPending
+                        ? "pending"
+                        : isActive
+                        ? styless["isActive"]
+                        : ""
+                    }
                   >
                     Logout
                   </NavLink>
@@ -267,6 +308,13 @@ const HeaderComponent = ({ allImages }) => {
                       justifyContent: "center",
                     }}
                     to="/"
+                    className={({ isActive, isPending }) =>
+                      isPending
+                        ? "pending"
+                        : isActive
+                        ? styless["isActive"]
+                        : ""
+                    }
                   >
                     Home
                   </NavLink>
@@ -280,6 +328,13 @@ const HeaderComponent = ({ allImages }) => {
                       justifyContent: "center",
                     }}
                     to="/honeymoons"
+                    className={({ isActive, isPending }) =>
+                      isPending
+                        ? "pending"
+                        : isActive
+                        ? styless["isActive"]
+                        : ""
+                    }
                   >
                     Honeymoons
                   </NavLink>
@@ -293,6 +348,13 @@ const HeaderComponent = ({ allImages }) => {
                       justifyContent: "center",
                     }}
                     to="/services"
+                    className={({ isActive, isPending }) =>
+                      isPending
+                        ? "pending"
+                        : isActive
+                        ? styless["isActive"]
+                        : ""
+                    }
                   >
                     Services
                   </NavLink>
@@ -306,6 +368,13 @@ const HeaderComponent = ({ allImages }) => {
                       justifyContent: "center",
                     }}
                     to="/gallery"
+                    className={({ isActive, isPending }) =>
+                      isPending
+                        ? "pending"
+                        : isActive
+                        ? styless["isActive"]
+                        : ""
+                    }
                   >
                     Gallery
                   </NavLink>
@@ -319,6 +388,13 @@ const HeaderComponent = ({ allImages }) => {
                       justifyContent: "center",
                     }}
                     to="/offers"
+                    className={({ isActive, isPending }) =>
+                      isPending
+                        ? "pending"
+                        : isActive
+                        ? styless["isActive"]
+                        : ""
+                    }
                   >
                     Offers
                   </NavLink>
@@ -332,6 +408,13 @@ const HeaderComponent = ({ allImages }) => {
                       justifyContent: "center",
                     }}
                     to="/signin"
+                    className={({ isActive, isPending }) =>
+                      isPending
+                        ? "pending"
+                        : isActive
+                        ? styless["isActive"]
+                        : ""
+                    }
                   >
                     Sign In
                   </NavLink>
