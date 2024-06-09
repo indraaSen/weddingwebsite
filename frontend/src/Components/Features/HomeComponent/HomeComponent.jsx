@@ -126,7 +126,7 @@ const HomeComponent = () => {
           <img
             className={styless["container3-col-1-img-1"]}
             src={beach}
-            alt="wedding image"
+            alt="weddingimage"
           />
           <h3 className={styless["container3-col-1-text-2"]}>
             GET THE WEDDING OF <br />
@@ -141,7 +141,7 @@ const HomeComponent = () => {
           <img
             className={styless["container3-col-1-img-2"]}
             src={weddingimg}
-            alt="wedding image"
+            alt="weddingimage"
           />
         </div>
         <div className={styless["container3-col-2"]}>
@@ -155,7 +155,7 @@ const HomeComponent = () => {
           <img
             className={styless["container3-col-2-img-1"]}
             src={hillwedding}
-            alt="wedding image"
+            alt="weddingimage"
           />
           <span className={styless["container3-col-2-text-3"]}>
             Vows on Destination
@@ -163,7 +163,7 @@ const HomeComponent = () => {
           <img
             className={styless["container3-col-2-img-2"]}
             src={destinationwedding}
-            alt="wedding image"
+            alt="weddingimage"
           />
         </div>
       </div>
